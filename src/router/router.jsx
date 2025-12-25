@@ -4,10 +4,14 @@ import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/Home';
 import AllArticles from '../pages/AllArticles';
 import PostArticle from './../pages/PostArticle';
-import MyArticle from './../pages/MyArticle';
 import About from './../pages/About';
 import Login from '../pages/Login';
 import Register from './../pages/Register';
+import NotFound from '../pages/NotFound';
+import ArticleDetails from '../pages/ArticleDetails';
+import MyArticles from '../pages/MyArticles';
+import BookmarkPage from '../pages/BookmarkPage';
+import Setting from '../pages/Setting';
 
 const router = createBrowserRouter([
     {
@@ -33,7 +37,15 @@ const router = createBrowserRouter([
             },
             {
                 path: '/my-articles',
-                element: <MyArticle />
+                element: <MyArticles />
+            },
+            {
+                path: '/article-details',
+                element: <ArticleDetails />
+            },
+            {
+                path: '/bookmark',
+                element: <BookmarkPage></BookmarkPage>
             },
             {
                 path: '/about',
@@ -48,8 +60,12 @@ const router = createBrowserRouter([
                 element: <Register />
             },
             {
+                path: '/profile',
+                element: <Setting></Setting>
+            },
+            {
                 path: '*',
-                element: <div>404 Not Found</div>
+                element: <NotFound></NotFound>
             }
         ]
     }

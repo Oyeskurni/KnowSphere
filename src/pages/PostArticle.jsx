@@ -1,85 +1,131 @@
-import React, { use } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router"; // React Router v7
+import { motion } from "framer-motion";
+import { ImagePlus, Send, Tag, LayoutGrid, Type } from "lucide-react";
+import { use } from "react";
+import { AuthContext } from './../context/AuthContext';
 
 const PostArticle = () => {
+    const navigate = useNavigate();
+
+    // Mocking logged-in user info (Replace with your Auth Context)
     const { user } = use(AuthContext);
+
+
+
     return (
-        <div className="max-w-3xl mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold mb-6">Create New Article</h1>
-
-            <form className="space-y-5">
-
-                {/* Title */}
-                <div>
-                    <label className="label">Article Title</label>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Enter article title"
-                        className="input input-bordered w-full"
-                        required
-                    />
+        <div className="min-h-screen bg-base-200 py-12 px-4">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="max-w-3xl mx-auto bg-base-100 rounded-2xl shadow-xl p-8"
+            >
+                <div className="mb-8 border-b pb-4">
+                    <h1 className="text-3xl font-black text-base-content">Create New Article</h1>
+                    <p className="text-base-content/60">Share your thoughts with the community.</p>
                 </div>
 
-                {/* Category */}
-                <div>
-                    <label className="label">Category</label>
-                    <select
-                        name="category"
-                        className="select select-bordered w-full"
-                        required
-                    >
-                        <option value="">Select Category</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Programming">Programming</option>
-                        <option value="AI">AI</option>
-                        <option value="Business">Business</option>
-                    </select>
-                </div>
+                <form className="space-y-6">
 
-                {/* Content */}
-                <div>
-                    <label className="label">Article Content</label>
-                    <textarea
-                        name="content"
-                        rows="8"
-                        placeholder="Write your article here..."
-                        className="textarea textarea-bordered w-full"
-                        required
-                    />
-                </div>
+                    {/* Title Field */}
+                    <div className="form-control">
+                        <label className="label font-bold text-sm uppercase tracking-wide">
+                            <span className="flex items-center gap-2"><Type size={16} /> Article Title</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="e.g. Mastering React Router v7"
+                            className={`input input-bordered w-full focus:input-primary `}
 
-                {/* Tags */}
-                <div>
-                    <label className="label">Tags</label>
-                    <input
-                        type="text"
-                        placeholder="AI, Future, Innovation"
-                        className="input input-bordered w-full"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                        Separate tags with commas
-                    </p>
-                </div>
-
-                {/* Author Preview */}
-                <div className="flex items-center gap-4 border border-base-300 p-4 rounded-lg">
-                    <img
-                        src={user?.photoURL || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTcT0QGetG2uzAvnYBjODTUeGzqZjpcfsUUQ&s'}
-                        alt="author"
-                        className="w-12 h-12 rounded-full"
-                    />
-                    <div>
-                        <p className="font-semibold">{user.displayName}</p>
-                        <p className="text-sm text-gray-500">{user.email}</p>
+                        />
                     </div>
-                </div>
 
-                {/* Submit */}
-                <button className="btn btn-primary w-full">
-                    Publish Article
-                </button>
-            </form>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Category Dropdown */}
+                        <div className="form-control">
+                            <label className="label font-bold text-sm uppercase">
+                                <span className="flex items-center gap-2"><LayoutGrid size={16} /> Category</span>
+                            </label>
+                            <select
+                                className="select select-bordered w-full focus:select-primary"
+
+                            >
+                                <option value="">Select Category</option>
+                                <option value="tech">Technology</option>
+                                <option value="lifestyle">Lifestyle</option>
+                                <option value="business">Business</option>
+                                <option value="education">Education</option>
+                            </select>
+                        </div>
+
+                        {/* Date Field */}
+                        <div className="form-control">
+                            <label className="label font-bold text-sm uppercase">
+                                <span className="flex items-center gap-2">Date</span>
+                            </label>
+                            <input
+                                type="date"
+                                className="input input-bordered w-full focus:input-primary"
+
+                            />
+                        </div>
+                    </div>
+
+                    {/* Thumbnail URL */}
+                    <div className="form-control">
+                        <label className="label font-bold text-sm uppercase">
+                            <span className="flex items-center gap-2"><ImagePlus size={16} /> Thumbnail URL</span>
+                        </label>
+                        <input
+                            type="url"
+                            placeholder="https://images.unsplash.com/your-image-url"
+                            className="input input-bordered w-full focus:input-primary"
+
+                        />
+                    </div>
+
+                    {/* Tags */}
+                    <div className="form-control">
+                        <label className="label font-bold text-sm uppercase">
+                            <span className="flex items-center gap-2"><Tag size={16} /> Tags (comma separated)</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="react, webdev, tutorial"
+                            className="input input-bordered w-full focus:input-primary"
+
+                        />
+                    </div>
+
+                    {/* Content Textarea */}
+                    <div className="form-control flex flex-col">
+                        <label className="label font-bold text-sm uppercase">
+                            <span>Article Content</span>
+                        </label>
+                        <textarea
+                            className="textarea textarea-bordered h-64 text-base focus:textarea-primary w-full"
+                            placeholder="Write your story here..."
+
+                        ></textarea>
+                    </div>
+
+                    {/* Read-only User Info */}
+                    <div className="bg-base-200 p-4 rounded-lg flex items-center justify-between text-sm opacity-80">
+                        <div className="flex flex-col">
+                            <span className="font-bold"> {user.displayName}</span>
+                            <span>Email: {user.email}</span>
+                        </div>
+                        {
+                            user ? (<span className="badge badge-success badge-outline">Logged In</span>) : (<span className="badge badge-error badge-outline">Not Logged In</span>)
+                        }
+                    </div>
+
+                    {/* Submit Button */}
+                    <button type="submit" className="btn btn-primary btn-block gap-2 shadow-lg">
+                        <Send size={18} /> Publish Article
+                    </button>
+                </form>
+            </motion.div>
         </div>
     );
 };
