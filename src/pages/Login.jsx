@@ -11,7 +11,7 @@ const Login = () => {
     const { signIn, googleSignIn } = useAuth();
 
     const location = useLocation();
-    const form = location.state || '/';
+    const form = location.state?.from?.pathname || "/";
 
     const handleLogin = e => {
         e.preventDefault();
@@ -28,7 +28,7 @@ const Login = () => {
 
                 // setError(null);
                 // form.reset();
-                navigate(form);
+                navigate(form, { replace: true });
             })
             .catch((error) => {
                 console.error(error);

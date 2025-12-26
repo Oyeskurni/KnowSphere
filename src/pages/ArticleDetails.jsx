@@ -1,27 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, MessageSquare, User, Calendar, Tag } from "lucide-react"; // Using Lucide for modern icons
+import { Heart, MessageSquare, User, Calendar, Tag, Clock } from "lucide-react"; // Using Lucide for modern icons
 import { useLoaderData } from "react-router";
 
 const ArticleDetails = () => {
     const [likes, setLikes] = useState(0);
     const [comment, setComment] = useState("");
 
-    const { title, content, category, author_name, author_photo, tags, } = useLoaderData();
-
-
-    // Mock data - replace with your actual database fetch logic
-    const article = {
-        title: "The Future of Web Development in 2025",
-        content: "Full article content goes here... HTML or Markdown format recommended.",
-        category: "Technology",
-        tags: ["React", "JavaScript", "WebDev"],
-        author: {
-            name: "John Doe",
-            photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-        },
-        publishedDate: "Dec 24, 2025",
-    };
+    const { title, content, author_name, author_photo, tags, thumbnail, date } = useLoaderData();
 
     const handleLike = async () => {
         // API call to update like in database
@@ -40,93 +26,121 @@ const ArticleDetails = () => {
             <div className="max-w-4xl mx-auto">
 
                 {/* Main Article Card */}
-                <article className="card bg-base-100 shadow-xl overflow-hidden">
+                <article className="card bg-base-100 shadow-2xl overflow-hidden border border-base-300">
+
+                    {/* Thumbnail / Hero Image */}
+                    <figure className="relative h-64 md:h-96 w-full">
+                        <img
+                            src={thumbnail || "https://images.unsplash.com/photo-1498050108023-c5249f4df085"}
+                            alt="Article cover"
+                            className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <div className="badge badge-primary font-bold p-3">Featured Article</div>
+                        </div>
+                    </figure>
 
                     {/* Header Section */}
                     <div className="card-body p-6 md:p-12">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="avatar">
-                                <div className="w-12 rounded-full border-2 border-primary">
-                                    <img src={author_photo} alt='author image' />
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                            <div className="flex items-center gap-4">
+                                <div className="avatar">
+                                    <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                        <img src={author_photo} alt='author' />
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <p className="font-bold text-lg">{author_name}</p>
-                                <div className="flex items-center text-xs text-base-content/60 gap-2">
-                                    <Calendar size={14} /> <span>{article.publishedDate}</span>
+                                <div>
+                                    <p className="font-black text-xl">{author_name}</p>
+                                    <div className="flex items-center text-sm text-base-content/60 gap-3">
+                                        <div className="flex items-center gap-1">
+                                            <Calendar size={14} /> <span>{date}</span>
+                                        </div>
+                                        <span>•</span>
+                                        <div className="flex items-center gap-1">
+                                            <Clock size={14} /> <span>8 min read</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight text-base-content">
+                        <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight text-base-content tracking-tight">
                             {title}
                         </h1>
 
                         {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mb-8">
+                        <div className="flex flex-wrap gap-2 mb-10">
                             {tags.map(tag => (
-                                <div key={tag} className="badge badge-outline badge-lg text-sm italic">
+                                <div key={tag} className="badge badge-secondary badge-outline hover:bg-secondary hover:text-secondary-content cursor-pointer transition-all">
                                     #{tag}
                                 </div>
                             ))}
                         </div>
 
                         {/* Article Content */}
-                        <div className="prose prose-lg max-w-none text-base-content/80 leading-relaxed">
+                        <div className="prose prose-lg max-w-none text-base-content/90 leading-relaxed font-serif">
                             {content}
                         </div>
 
-                        <div className="divider my-10"></div>
+                        <div className="divider my-12"></div>
 
-                        {/* Interaction Section (Likes & Comments Count) */}
-                        <div className="flex items-center gap-6 mb-8">
+                        {/* Interaction Section */}
+                        <div className="flex flex-wrap items-center gap-4 md:gap-8 mb-10">
                             <button
                                 onClick={handleLike}
-                                className="flex items-center gap-2 group transition-colors hover:text-error"
+                                className="btn btn-ghost hover:bg-error/10 group rounded-full px-6 border border-base-300"
                             >
-                                <div className="p-3 bg-base-200 rounded-full group-hover:bg-error/10 transition-colors">
-                                    <Heart className={likes > 0 ? "fill-error text-error" : ""} size={24} />
-                                </div>
-                                <span className="font-bold text-lg">{likes} Likes</span>
+                                <Heart className={likes > 0 ? "fill-error text-error" : "group-hover:text-error"} size={22} />
+                                <span className="font-bold text-lg">{likes}</span>
                             </button>
 
-                            <div className="flex items-center gap-2">
-                                <div className="p-3 bg-base-200 rounded-full">
-                                    <MessageSquare size={24} />
-                                </div>
-                                <span className="font-bold text-lg">12 Comments</span>
+                            <div className="btn btn-ghost no-animation cursor-default rounded-full px-6 border border-base-300">
+                                <MessageSquare size={22} className="text-primary" />
+                                <span className="font-bold text-lg">12 <span className="hidden sm:inline">Comments</span></span>
                             </div>
                         </div>
 
                         {/* Post a Comment */}
-                        <section>
-                            <h3 className="text-xl font-bold mb-4">Discussion</h3>
+                        <section className="bg-base-200/50 p-6 md:p-8 rounded-2xl">
+                            <h3 className="text-2xl font-black mb-6 flex items-center gap-2">
+                                Discussion
+                                <div className="badge badge-primary">{12}</div>
+                            </h3>
                             <form onSubmit={handleCommentSubmit} className="space-y-4">
                                 <textarea
-                                    className="textarea textarea-bordered w-full h-32 text-base focus:border-primary"
-                                    placeholder="Add to the discussion..."
+                                    className="textarea textarea-bordered w-full h-32 text-lg focus:ring-2 focus:ring-primary/20 border-base-300"
+                                    placeholder="Share your thoughts..."
                                     value={comment}
                                     onChange={(e) => setComment(e.target.value)}
                                     required
                                 ></textarea>
-                                <button type="submit" className="btn btn-primary px-8">Submit Comment</button>
+                                <div className="flex justify-end">
+                                    <button type="submit" className="btn btn-primary btn-md md:btn-lg shadow-lg">
+                                        Post Comment
+                                    </button>
+                                </div>
                             </form>
 
-                            {/* Comments List (Optional Display) */}
-                            <div className="mt-10 space-y-6">
-                                {/* Example of a single comment */}
+                            {/* Comments List */}
+                            <div className="mt-12 space-y-8">
                                 <div className="flex gap-4">
-                                    <div className="avatar h-10 w-10">
-                                        <div className="rounded-full">
+                                    <div className="avatar h-12 w-12 shrink-0">
+                                        <div className="rounded-full ring-1 ring-base-300">
                                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane" alt="User" />
                                         </div>
                                     </div>
-                                    <div className="bg-base-200 p-4 rounded-xl flex-1 border border-base-300">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <span className="font-bold">Jane Smith</span>
-                                            <span className="text-xs text-base-content/50">2 hours ago</span>
+                                    <div className="flex-1">
+                                        <div className="bg-base-100 p-5 rounded-2xl border border-base-300 shadow-sm">
+                                            <div className="flex justify-between items-center mb-3">
+                                                <span className="font-bold text-base">Jane Smith</span>
+                                                <span className="text-xs opacity-50">2 hours ago</span>
+                                            </div>
+                                            <p className="text-base-content/80">Great insights! I really enjoyed the section on React v19. The new features look very promising.</p>
                                         </div>
-                                        <p className="text-base-content/80">Great insights! I really enjoyed the section on React v19.</p>
+                                        <div className="flex gap-4 mt-2 ml-2">
+                                            <button className="text-xs font-bold hover:underline opacity-60">Like</button>
+                                            <button className="text-xs font-bold hover:underline opacity-60">Reply</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

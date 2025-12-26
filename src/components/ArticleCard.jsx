@@ -14,7 +14,18 @@ const ArticleCard = ({ article }) => {
         author_name,
         author_photo,
         tags,
+        date
     } = article;
+
+    const formatDate = (date) => {
+        if (!date) return 'unknown date';
+        return new Date(date).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        });
+    };
+
 
     return (
         <div className="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-all duration-200">
@@ -25,12 +36,12 @@ const ArticleCard = ({ article }) => {
                     <div className="flex items-center gap-3">
                         <div className="avatar">
                             <div className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img src={author_photo || "https://i.pravatar.cc/40"} alt="User Avatar" />
+                                <img src={author_photo} alt="User Avatar" />
                             </div>
                         </div>
                         <div>
-                            <p className="font-bold text-sm hover:underline cursor-pointer">{author_name || "Afra Anjum"}</p>
-                            <p className="text-xs text-base-content/60">jun 12</p>
+                            <p className="font-bold text-sm hover:underline cursor-pointer">{author_name}</p>
+                            <p className="text-xs text-base-content/60"> {formatDate(date) || "Unknown Date"}</p>
                         </div>
                     </div>
 

@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router"; // React Router v7
 import { motion } from "framer-motion";
-import { ImagePlus, Send, Tag, LayoutGrid, Type } from "lucide-react";
+import { ImagePlus, Send, Tag, LayoutGrid, Type, Clock } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import TagInput from './../components/TagInput';
 import { useState } from "react";
+import axios from "axios";
+import { FaStopwatch } from "react-icons/fa";
+
 
 const PostArticle = () => {
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const [tags, setTags] = useState([]);
 
@@ -16,10 +20,37 @@ const PostArticle = () => {
         const form = e.target;
         const formData = new FormData(form);
         const articleForm = Object.fromEntries(formData.entries());
-        const articleData = { ...articleForm, tags };
+        // formatDate
+        const formattedDate = formatDate(articleForm.date);
+        // Validate readTime
+        if (!validateReadTime(articleForm.readTime)) {
+            setError("Read time must be a positive number");
+            return;
+        }
+        const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid };
         console.log(articleData);
 
+        axios.post('http://localhost:5000/articles', articleData)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
+
     }
+    const formatDate = (date) => {
+        if (!date) return 'unknown date';
+        return new Date(date).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        });
+    };
+
+    const validateReadTime = (value) => {
+        if (!value) return "Read time is required";
+        if (!/^\d+$/.test(value)) return "Only numbers are allowed";
+        if (Number(value) <= 0) return "Read time must be greater than 0";
+        return "";
+    };
+
 
 
 
@@ -45,6 +76,7 @@ const PostArticle = () => {
                         <input
                             type="text"
                             name="title"
+                            required
                             placeholder="e.g. Mastering React Router v7"
                             className={`input input-bordered w-full focus:input-primary `}
 
@@ -59,6 +91,7 @@ const PostArticle = () => {
                             </label>
                             <select
                                 name="category"
+                                required
                                 className="select select-bordered w-full focus:select-primary"
 
                             >
@@ -78,6 +111,7 @@ const PostArticle = () => {
                             <input
                                 type="date"
                                 name="date"
+                                required
                                 className="input input-bordered w-full focus:input-primary"
 
                             />
@@ -92,6 +126,7 @@ const PostArticle = () => {
                         <input
                             type="url"
                             name="thumbnail"
+
                             placeholder="https://images.unsplash.com/your-image-url"
                             className="input input-bordered w-full focus:input-primary"
 
@@ -108,10 +143,35 @@ const PostArticle = () => {
                         </label>
                         <textarea
                             name="content"
+                            required
                             className="textarea textarea-bordered h-64 text-base focus:textarea-primary w-full"
                             placeholder="Write your story here..."
 
                         ></textarea>
+                    </div>
+
+                    {/* Read Time Field */}
+                    <div className="form-control">
+                        <label className="label font-bold text-sm uppercase tracking-wide">
+
+                            <span className="flex items-center gap-2"><Clock size={16} /> Read Time</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="readTime"
+                            required
+                            placeholder="Read Time (in minutes)"
+                            className={`input input-bordered w-full ${error ? "input-error" : ""
+                                }`}
+                            onChange={(e) => setError(validateReadTime(e.target.value))}
+                        />
+                        {error && (
+                            <label className="label">
+                                <span className="label-text-alt text-error">
+                                    {error}
+                                </span>
+                            </label>
+                        )}
                     </div>
 
                     {/* Read-only User Info */}
