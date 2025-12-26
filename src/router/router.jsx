@@ -12,6 +12,7 @@ import ArticleDetails from '../pages/ArticleDetails';
 import MyArticles from '../pages/MyArticles';
 import BookmarkPage from '../pages/BookmarkPage';
 import Setting from '../pages/Setting';
+import PrivateRoute from '../components/PrivateRoute';
 
 const router = createBrowserRouter([
     {
@@ -25,24 +26,32 @@ const router = createBrowserRouter([
             },
             {
                 path: '/all-articles',
+                loader: () => fetch('http://localhost:5000/articles'),
                 element: <AllArticles />
             },
             {
                 path: '/article/:id',
-                element: <AllArticles />
+                loader: async ({ params }) => {
+                    const res = await fetch(`http://localhost:5000/articles/${params.id}`);
+
+                    if (!res.ok) {
+                        throw new Response("Article not found", { status: 404 });
+                    }
+
+                    return res.json();
+                },
+                element: <ArticleDetails></ArticleDetails>
             },
             {
                 path: '/post-article',
-                element: <PostArticle />
+                element: <PrivateRoute><PostArticle /></PrivateRoute>
             },
             {
                 path: '/my-articles',
-                element: <MyArticles />
+                loader: () => fetch('http://localhost:5000/articles'),
+                element: <PrivateRoute><MyArticles /></PrivateRoute>
             },
-            {
-                path: '/article-details',
-                element: <ArticleDetails />
-            },
+
             {
                 path: '/bookmark',
                 element: <BookmarkPage></BookmarkPage>

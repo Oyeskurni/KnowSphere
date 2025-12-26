@@ -1,10 +1,13 @@
 import React from 'react';
 
 import ArticleCard from './ArticleCard';
-const ContentLayout = () => {
+const ContentLayout = ({ articles }) => {
+
     return (
         <div className="max-w-7xl mx-auto px-4 ">
-            <ArticleCard></ArticleCard>
+            {
+                articles.map((article) => <ArticleCard key={article._id} article={article} />)
+            }
         </div>
 
     );

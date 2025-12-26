@@ -8,4 +8,10 @@ Add the @tailwindcss/vite plugin to your Vite configuration.
 # Install daisyUI
 npm install -D daisyui
 
+# insltall react-icon
+npm i react-icon
+
+# install firebase
+npm i firebase
+
 

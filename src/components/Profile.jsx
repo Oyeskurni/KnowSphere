@@ -1,14 +1,14 @@
 import React, { use } from 'react';
-import { AuthContext } from '../context/AuthContext';
 import { CiSettings } from "react-icons/ci";
 import { FaBookmark } from "react-icons/fa6";
 import { IoCreateOutline } from "react-icons/io5";
 import { Link } from 'react-router';
 import { IoIosLogOut } from "react-icons/io";
 import { MdArticle } from "react-icons/md";
+import useAuth from '../hooks/useAuth';
 
 const Profile = () => {
-    const { user, logOut } = use(AuthContext);
+    const { user, logOut } = useAuth();
     const menuLinks = [
         {
             name: 'Settings',

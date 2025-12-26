@@ -3,12 +3,12 @@ import { Link } from 'react-router';
 import NavLinks from './NavLinks';
 import logo from '../assets/sharing-idea.jpg';
 import HamMenu from './HamMenu';
-import { AuthContext } from '../context/AuthContext';
 import Profile from './Profile';
+import useAuth from '../hooks/useAuth';
 
 
 const Navbar = () => {
-    const { user } = use(AuthContext);
+    const { user } = useAuth();
     return (
         <div className="navbar max-w-7xl mx-auto px-3 sm:px-4 md:px-6 flex gap-2 md:gap-4 lg:gap-6 ">
 

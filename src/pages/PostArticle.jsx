@@ -1,15 +1,25 @@
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router"; // React Router v7
 import { motion } from "framer-motion";
 import { ImagePlus, Send, Tag, LayoutGrid, Type } from "lucide-react";
-import { use } from "react";
-import { AuthContext } from './../context/AuthContext';
+import useAuth from "../hooks/useAuth";
+import TagInput from './../components/TagInput';
+import { useState } from "react";
 
 const PostArticle = () => {
     const navigate = useNavigate();
+    const [tags, setTags] = useState([]);
 
-    // Mocking logged-in user info (Replace with your Auth Context)
-    const { user } = use(AuthContext);
+    const { user } = useAuth();
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const articleForm = Object.fromEntries(formData.entries());
+        const articleData = { ...articleForm, tags };
+        console.log(articleData);
+
+    }
 
 
 
@@ -25,7 +35,7 @@ const PostArticle = () => {
                     <p className="text-base-content/60">Share your thoughts with the community.</p>
                 </div>
 
-                <form className="space-y-6">
+                <form onSubmit={handleFormSubmit} className="space-y-6">
 
                     {/* Title Field */}
                     <div className="form-control">
@@ -34,6 +44,7 @@ const PostArticle = () => {
                         </label>
                         <input
                             type="text"
+                            name="title"
                             placeholder="e.g. Mastering React Router v7"
                             className={`input input-bordered w-full focus:input-primary `}
 
@@ -47,6 +58,7 @@ const PostArticle = () => {
                                 <span className="flex items-center gap-2"><LayoutGrid size={16} /> Category</span>
                             </label>
                             <select
+                                name="category"
                                 className="select select-bordered w-full focus:select-primary"
 
                             >
@@ -65,6 +77,7 @@ const PostArticle = () => {
                             </label>
                             <input
                                 type="date"
+                                name="date"
                                 className="input input-bordered w-full focus:input-primary"
 
                             />
@@ -78,6 +91,7 @@ const PostArticle = () => {
                         </label>
                         <input
                             type="url"
+                            name="thumbnail"
                             placeholder="https://images.unsplash.com/your-image-url"
                             className="input input-bordered w-full focus:input-primary"
 
@@ -85,17 +99,7 @@ const PostArticle = () => {
                     </div>
 
                     {/* Tags */}
-                    <div className="form-control">
-                        <label className="label font-bold text-sm uppercase">
-                            <span className="flex items-center gap-2"><Tag size={16} /> Tags (comma separated)</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="react, webdev, tutorial"
-                            className="input input-bordered w-full focus:input-primary"
-
-                        />
-                    </div>
+                    <TagInput tags={tags} setTags={setTags}></TagInput>
 
                     {/* Content Textarea */}
                     <div className="form-control flex flex-col">
@@ -103,6 +107,7 @@ const PostArticle = () => {
                             <span>Article Content</span>
                         </label>
                         <textarea
+                            name="content"
                             className="textarea textarea-bordered h-64 text-base focus:textarea-primary w-full"
                             placeholder="Write your story here..."
 
@@ -126,6 +131,8 @@ const PostArticle = () => {
                     </button>
                 </form>
             </motion.div>
+
+
         </div>
     );
 };

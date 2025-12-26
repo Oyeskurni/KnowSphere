@@ -1,15 +1,15 @@
 import React, { use, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { AuthContext } from "../context/AuthContext";
 import { updateProfile } from "firebase/auth";
+import useAuth from "../hooks/useAuth";
 
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState();
     const navigate = useNavigate();
-    const { createUser, setUser } = use(AuthContext);
+    const { createUser, setUser } = useAuth();
 
 
     const handleRegister = e => {

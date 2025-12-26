@@ -4,8 +4,12 @@ import SocialMediaLinks from '../components/SocialMediaLinks';
 import ContentLayout from '../components/ContentLayout';
 import TopContributors from '../components/TopContributors';
 import Banner from '../components/Banner';
+import useArticles from '../hooks/useArticles';
 
 const Home = () => {
+
+    const { articles } = useArticles();
+
     return (
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 pt-14 pb-20">
             <Banner />
@@ -25,7 +29,7 @@ const Home = () => {
 
                 {/* MAIN CONTENT */}
                 <main className="flex-[3]">
-                    <ContentLayout />
+                    <ContentLayout articles={articles} />
                 </main>
 
                 {/* RIGHT SIDEBAR */}

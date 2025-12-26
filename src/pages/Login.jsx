@@ -1,14 +1,17 @@
 import React, { use, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { AuthContext } from "../context/AuthContext";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
     const [error, setError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const { signIn, googleSignIn } = use(AuthContext);
+    const { signIn, googleSignIn } = useAuth();
+
+    const location = useLocation();
+    const form = location.state || '/';
 
     const handleLogin = e => {
         e.preventDefault();
@@ -25,7 +28,7 @@ const Login = () => {
 
                 // setError(null);
                 // form.reset();
-                navigate("/");
+                navigate(form);
             })
             .catch((error) => {
                 console.error(error);
@@ -38,7 +41,7 @@ const Login = () => {
             .then((result) => {
                 const user = result.user;
                 console.log(user);
-                navigate("/");
+                navigate(form);
             }).catch((error) => {
                 console.error(error);
             });

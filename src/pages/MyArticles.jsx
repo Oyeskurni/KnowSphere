@@ -1,28 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router"; // Modern v7+
+import { Link, useLoaderData, useNavigate } from "react-router"; // Modern v7+
 import { Edit3, Trash2, Eye, AlertCircle } from "lucide-react";
 import Swal from "sweetalert2"; // Highly recommended for delete confirmations
 
 const MyArticles = () => {
     const navigate = useNavigate();
 
-    // Mock data: In a real app, you would fetch this using the user's email
-    const [articles, setArticles] = useState([
-        {
-            id: "1",
-            title: "The Future of AI in Student Life",
-            category: "Education",
-            date: "2025-12-20",
-            status: "Published"
-        },
-        {
-            id: "2",
-            title: "React Router v7 Migration Guide",
-            category: "Tech",
-            date: "2025-12-22",
-            status: "Draft"
-        }
-    ]);
+    const articles = useLoaderData();
 
     const handleDelete = (id) => {
         Swal.fire({
@@ -36,7 +20,7 @@ const MyArticles = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Logic: Send DELETE request to API
-                setArticles(articles.filter(art => art.id !== id));
+                articles.filter(art => art.id !== id);
                 Swal.fire("Deleted!", "Your article has been removed.", "success");
             }
         });
@@ -76,22 +60,22 @@ const MyArticles = () => {
                             <tbody>
                                 {articles.length > 0 ? (
                                     articles.map((art, index) => (
-                                        <tr key={art.id} className="hover:bg-base-200/50 transition-colors">
+                                        <tr key={art._id} className="hover:bg-base-200/50 transition-colors">
                                             <th>{index + 1}</th>
                                             <td className="font-bold max-w-xs truncate">{art.title}</td>
                                             <td>
                                                 <div className="badge badge-outline badge-sm">{art.category}</div>
                                             </td>
-                                            <td>{art.date}</td>
+                                            <td>{art?._id}</td>
                                             <td>
-                                                <span className={`badge badge-sm ${art.status === 'Published' ? 'badge-success' : 'badge-ghost'}`}>
+                                                <span className={`badge badge-sm ${art?.status === 'Published' ? 'badge-success' : 'badge-ghost'}`}>
                                                     {art.status}
                                                 </span>
                                             </td>
                                             <td className="flex justify-center gap-2">
                                                 {/* View Action */}
                                                 <div className="tooltip" data-tip="View">
-                                                    <Link to={`/article/${art.id}`} className="btn btn-square btn-sm btn-ghost">
+                                                    <Link to={`/article/${art._id}`} className="btn btn-square btn-sm btn-ghost">
                                                         <Eye size={18} />
                                                     </Link>
                                                 </div>
@@ -106,7 +90,7 @@ const MyArticles = () => {
                                                 {/* Delete Action */}
                                                 <div className="tooltip" data-tip="Delete">
                                                     <button
-                                                        onClick={() => handleDelete(art.id)}
+                                                        onClick={() => handleDelete(art._id)}
                                                         className="btn btn-square btn-sm btn-error btn-outline"
                                                     >
                                                         <Trash2 size={18} />
@@ -121,7 +105,7 @@ const MyArticles = () => {
                                             <div className="flex flex-col items-center opacity-50">
                                                 <AlertCircle size={48} />
                                                 <p className="mt-2 text-lg font-semibold">No articles found.</p>
-                                                <Link to="/create-article" className="link link-primary mt-1">Start writing your first post!</Link>
+                                                <Link to={"/post-article"} className="link link-primary mt-1">Start writing your first post!</Link>
                                             </div>
                                         </td>
                                     </tr>

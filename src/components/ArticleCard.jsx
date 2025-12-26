@@ -1,12 +1,20 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { MessageSquare, Heart, ThumbsUp, ThumbsDown, Share2, ArrowRight } from "lucide-react";
-import { AuthContext } from "../context/AuthContext";
 
 const ArticleCard = ({ article }) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
-    const { user } = use(AuthContext);
+    if (!article) return null;
+
+
+    const {
+        _id,
+        title,
+        author_name,
+        author_photo,
+        tags,
+    } = article;
 
     return (
         <div className="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-all duration-200">
@@ -17,11 +25,11 @@ const ArticleCard = ({ article }) => {
                     <div className="flex items-center gap-3">
                         <div className="avatar">
                             <div className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img src={user?.photoURL || "https://i.pravatar.cc/40"} alt="User Avatar" />
+                                <img src={author_photo || "https://i.pravatar.cc/40"} alt="User Avatar" />
                             </div>
                         </div>
                         <div>
-                            <p className="font-bold text-sm hover:underline cursor-pointer">{user?.displayName || "Afra Anjum"}</p>
+                            <p className="font-bold text-sm hover:underline cursor-pointer">{author_name || "Afra Anjum"}</p>
                             <p className="text-xs text-base-content/60">jun 12</p>
                         </div>
                     </div>
@@ -39,15 +47,15 @@ const ArticleCard = ({ article }) => {
                 <div className="space-y-2">
                     <Link to={`/article`}>
                         <h2 className="card-title text-xl font-extrabold hover:text-primary transition-colors cursor-pointer leading-tight">
-                            oyes
+                            {title}
                         </h2>
                     </Link>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 pt-1">
-                        {["#AI", "#Education", "#Future"].map((tag) => (
-                            <span key={tag} className="badge badge-ghost text-xs font-medium hover:bg-base-300 cursor-pointer">
-                                {tag}
+                        {tags?.map((tag, index) => (
+                            <span key={index} className="badge badge-outline badge-sm italic">
+                                #{tag}
                             </span>
                         ))}
                     </div>
@@ -60,14 +68,15 @@ const ArticleCard = ({ article }) => {
                             <Heart size={16} className="text-error" /> <span>24</span>
                         </div>
                         <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
-                            <MessageSquare size={16} /> <span>6 <span className="hidden sm:inline">comments</span></span>
-                        </div>
-                        <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
                             <ThumbsUp size={16} /> <span>12</span>
                         </div>
+                        <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
+                            <MessageSquare size={16} /> <span>6 <span className="hidden sm:inline">comments</span></span>
+                        </div>
+
                     </div>
 
-                    <Link to={`/article`} className="btn btn-ghost btn-sm group-hover:gap-3 transition-all text-primary border-none bg-primary/5 hover:bg-primary hover:text-white">
+                    <Link to={`/article/${_id}`} className="btn btn-ghost btn-sm group-hover:gap-3 transition-all text-primary border-none bg-primary/5 hover:bg-primary hover:text-white">
                         Read More
                         <ArrowRight size={16} />
                     </Link>

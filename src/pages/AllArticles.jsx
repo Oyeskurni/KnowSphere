@@ -1,42 +1,8 @@
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import ArticleCard from "../components/ArticleCard";
 
 const AllArticles = () => {
-    // Example data array
-    const articles = [
-        {
-            _id: "1",
-            title: "Understanding the New React Router v7 Features",
-            authorName: "Sarah Drasner",
-            publishedDate: "Dec 20, 2025",
-            category: "Development",
-            thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80"
-        },
-        {
-            _id: "1",
-            title: "Understanding the New React Router v7 Features",
-            authorName: "Sarah Drasner",
-            publishedDate: "Dec 20, 2025",
-            category: "Development",
-            thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80"
-        },
-        {
-            _id: "1",
-            title: "Understanding the New React Router v7 Features",
-            authorName: "Sarah Drasner",
-            publishedDate: "Dec 20, 2025",
-            category: "Development",
-            thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80"
-        },
-        {
-            _id: "1",
-            title: "Understanding the New React Router v7 Features",
-            authorName: "Sarah Drasner",
-            publishedDate: "Dec 20, 2025",
-            category: "Development",
-            thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80"
-        },
-    ];
+    const articles = useLoaderData();
 
     return (
         <section className="bg-base-200 min-h-screen py-12 px-4">
@@ -55,8 +21,8 @@ const AllArticles = () => {
 
                 {/* Articles Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {articles.map((article, index) => (
-                        <ArticleCard key={article._id} article={article} index={index} />
+                    {articles.map(article => (
+                        <ArticleCard key={article._id} article={article} />
                     ))}
                 </div>
 

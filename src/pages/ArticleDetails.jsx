@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
 import { motion } from "framer-motion";
 import { Heart, MessageSquare, User, Calendar, Tag } from "lucide-react"; // Using Lucide for modern icons
+import { useLoaderData } from "react-router";
 
 const ArticleDetails = () => {
-    const { id } = useParams();
     const [likes, setLikes] = useState(0);
     const [comment, setComment] = useState("");
+
+    const { title, content, category, author_name, author_photo, tags, } = useLoaderData();
+
 
     // Mock data - replace with your actual database fetch logic
     const article = {
@@ -45,11 +47,11 @@ const ArticleDetails = () => {
                         <div className="flex items-center gap-3 mb-6">
                             <div className="avatar">
                                 <div className="w-12 rounded-full border-2 border-primary">
-                                    <img src={article.author.photo} alt={article.author.name} />
+                                    <img src={author_photo} alt='author image' />
                                 </div>
                             </div>
                             <div>
-                                <p className="font-bold text-lg">{article.author.name}</p>
+                                <p className="font-bold text-lg">{author_name}</p>
                                 <div className="flex items-center text-xs text-base-content/60 gap-2">
                                     <Calendar size={14} /> <span>{article.publishedDate}</span>
                                 </div>
@@ -57,12 +59,12 @@ const ArticleDetails = () => {
                         </div>
 
                         <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight text-base-content">
-                            {article.title}
+                            {title}
                         </h1>
 
                         {/* Tags */}
                         <div className="flex flex-wrap gap-2 mb-8">
-                            {article.tags.map(tag => (
+                            {tags.map(tag => (
                                 <div key={tag} className="badge badge-outline badge-lg text-sm italic">
                                     #{tag}
                                 </div>
@@ -71,7 +73,7 @@ const ArticleDetails = () => {
 
                         {/* Article Content */}
                         <div className="prose prose-lg max-w-none text-base-content/80 leading-relaxed">
-                            {article.content}
+                            {content}
                         </div>
 
                         <div className="divider my-10"></div>
