@@ -7,7 +7,7 @@ const ArticleDetails = () => {
     const [likes, setLikes] = useState(0);
     const [comment, setComment] = useState("");
 
-    const { title, content, author_name, author_photo, tags, thumbnail, date } = useLoaderData();
+    const { title, content, author_name, author_photo, tags, thumbnail, date, readTime } = useLoaderData();
 
     const handleLike = async () => {
         // API call to update like in database
@@ -53,7 +53,7 @@ const ArticleDetails = () => {
                                         </div>
                                         <span>•</span>
                                         <div className="flex items-center gap-1">
-                                            <Clock size={14} /> <span>8 min read</span>
+                                            <Clock size={14} /> <span>{readTime}</span>
                                         </div>
                                     </div>
                                 </div>

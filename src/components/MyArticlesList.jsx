@@ -75,7 +75,6 @@ const MyArticlesList = ({ article }) => {
                                     <th>Article Title</th>
                                     <th>Category</th>
                                     <th>Published Date</th>
-                                    <th>Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -92,11 +91,7 @@ const MyArticlesList = ({ article }) => {
                                                 </span>
                                             </td>
                                             <td>{art.date || "N/A"}</td>
-                                            <td>
-                                                <span className={`badge badge-sm ${art.status === "Published" ? "badge-success" : "badge-ghost"}`}>
-                                                    {art.status || "Draft"}
-                                                </span>
-                                            </td>
+
                                             <td className="flex justify-center gap-2">
                                                 <Link to={`/article/${art._id}`} className="btn btn-square btn-sm btn-ghost" title="View">
                                                     <Eye size={18} />

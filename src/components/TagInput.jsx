@@ -3,22 +3,19 @@ import { X } from "lucide-react";
 
 const TagInput = ({ tags, setTags }) => {
     const [inputValue, setInputValue] = useState("");
+    // console.log(tags);
+
 
     const addTag = (value) => {
         const newTag = value.trim();
-
-        if (!newTag) return;
-        if (tags.includes(newTag)) return;
-
+        if (!newTag || tags.includes(newTag)) return;
         setTags([...tags, newTag]);
     };
 
     const handleChange = (e) => {
         const value = e.target.value;
-
         if (value.includes(",")) {
-            const tag = value.replace(",", "");
-            addTag(tag);
+            addTag(value.replace(",", ""));
             setInputValue("");
         } else {
             setInputValue(value);
@@ -31,10 +28,6 @@ const TagInput = ({ tags, setTags }) => {
             addTag(inputValue);
             setInputValue("");
         }
-
-        if (e.key === "Backspace" && !inputValue && tags.length) {
-            setTags(tags.slice(0, -1));
-        }
     };
 
     const removeTag = (index) => {
@@ -43,19 +36,14 @@ const TagInput = ({ tags, setTags }) => {
 
     return (
         <div className="w-full">
-            <div className="flex flex-wrap items-center gap-2  ">
-
+            <div className="flex flex-wrap items-center gap-2">
                 {tags.map((tag, index) => (
                     <span
                         key={index}
                         className="flex items-center gap-1 px-3 py-1 text-sm rounded-full bg-primary/10 text-primary"
                     >
                         #{tag}
-                        <button
-                            type="button"
-                            onClick={() => removeTag(index)}
-                            className="hover:text-error"
-                        >
+                        <button type="button" onClick={() => removeTag(index)}>
                             <X size={14} />
                         </button>
                     </span>
@@ -66,12 +54,13 @@ const TagInput = ({ tags, setTags }) => {
                     value={inputValue}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
-                    placeholder="Enter tags separated by commas"
-                    className="input input-bordered w-full focus:input-primary"
+                    placeholder="Enter tags, comma or press Enter"
+                    className="input input-bordered w-full"
                 />
             </div>
         </div>
     );
 };
+
 
 export default TagInput;

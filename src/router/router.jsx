@@ -13,6 +13,7 @@ import MyArticles from '../pages/MyArticles';
 import BookmarkPage from '../pages/BookmarkPage';
 import Setting from '../pages/Setting';
 import PrivateRoute from '../components/PrivateRoute';
+import UpdateArticle from '../pages/UpdateArticle';
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,19 @@ const router = createBrowserRouter([
             {
                 path: '/post-article',
                 element: <PrivateRoute><PostArticle /></PrivateRoute>
+            },
+            {
+                path: '/update-article/:id',
+                loader: async ({ params }) => {
+                    const res = await fetch(`http://localhost:5000/articles/${params.id}`);
+
+                    if (!res.ok) {
+                        throw new Response("Article not found", { status: 404 });
+                    }
+
+                    return res.json();
+                },
+                element: <PrivateRoute><UpdateArticle /></PrivateRoute>
             },
             {
                 path: '/my-articles',
