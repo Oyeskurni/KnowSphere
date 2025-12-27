@@ -29,16 +29,12 @@ const ArticleDetails = () => {
                 <article className="card bg-base-100 shadow-2xl overflow-hidden border border-base-300">
 
                     {/* Thumbnail / Hero Image */}
-                    <figure className="relative h-64 md:h-96 w-full">
-                        <img
-                            src={thumbnail || "https://images.unsplash.com/photo-1498050108023-c5249f4df085"}
-                            alt="Article cover"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-                            <div className="badge badge-primary font-bold p-3">Featured Article</div>
-                        </div>
-                    </figure>
+                    {
+                        thumbnail &&
+                        <figure className="relative w-full h-96 overflow-hidden">
+                            <img src={thumbnail} alt="Thumbnail" className="w-full h-full object-cover" />
+                        </figure>
+                    }
 
                     {/* Header Section */}
                     <div className="card-body p-6 md:p-12">

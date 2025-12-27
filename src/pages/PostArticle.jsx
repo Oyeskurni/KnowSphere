@@ -22,12 +22,13 @@ const PostArticle = () => {
         const articleForm = Object.fromEntries(formData.entries());
         // formatDate
         const formattedDate = formatDate(articleForm.date);
-        // Validate readTime
+        // Validate readTime05
         if (!validateReadTime(articleForm.readTime)) {
             setError("Read time must be a positive number");
             return;
         }
-        const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid };
+
+        const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid, user_email: user.email };
         console.log(articleData);
 
         axios.post('http://localhost:5000/articles', articleData)
@@ -45,11 +46,12 @@ const PostArticle = () => {
     };
 
     const validateReadTime = (value) => {
-        if (!value) return "Read time is required";
-        if (!/^\d+$/.test(value)) return "Only numbers are allowed";
-        if (Number(value) <= 0) return "Read time must be greater than 0";
-        return "";
+        if (!value) return false;
+        if (!/^\d+$/.test(value)) return false;
+        if (Number(value) <= 0) return false;
+        return true;
     };
+
 
 
 

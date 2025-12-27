@@ -17,14 +17,7 @@ const ArticleCard = ({ article }) => {
         date
     } = article;
 
-    const formatDate = (date) => {
-        if (!date) return 'unknown date';
-        return new Date(date).toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-        });
-    };
+
 
 
     return (
@@ -41,7 +34,7 @@ const ArticleCard = ({ article }) => {
                         </div>
                         <div>
                             <p className="font-bold text-sm hover:underline cursor-pointer">{author_name}</p>
-                            <p className="text-xs text-base-content/60"> {formatDate(date) || "Unknown Date"}</p>
+                            <p className="text-xs text-base-content/60"> {date || "Unknown Date"}</p>
                         </div>
                     </div>
 

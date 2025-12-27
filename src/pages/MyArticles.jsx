@@ -1,120 +1,35 @@
-import { useState } from "react";
-import { Link, useLoaderData, useNavigate } from "react-router"; // Modern v7+
-import { Edit3, Trash2, Eye, AlertCircle } from "lucide-react";
-import Swal from "sweetalert2"; // Highly recommended for delete confirmations
+import React, { useEffect, useState } from 'react';
+import useAuth from './../hooks/useAuth';
+import { myArticlesPromise } from '../api/myArticlesPromise';
+import MyArticlesList from '../components/MyArticlesList';
 
 const MyArticles = () => {
-    const navigate = useNavigate();
+    const { user, loading, setLoading } = useAuth();
+    const [articles, setArticles] = useState([]);
+    console.log(articles);
 
-    const articles = useLoaderData();
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This action cannot be undone!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Logic: Send DELETE request to API
-                articles.filter(art => art.id !== id);
-                Swal.fire("Deleted!", "Your article has been removed.", "success");
-            }
-        });
-    };
+
+    useEffect(() => {
+        if (user?.email) {
+            myArticlesPromise(user.email)
+                .then(data => {
+                    setArticles(data);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.error(err);
+                    setLoading(false);
+                });
+        }
+    }, [user]);
+
+    if (!user) return <p>Please login first</p>;
+    if (loading) return <p>Loading...</p>;
 
     return (
-        <div className="min-h-screen bg-base-200 p-6">
-            <div className="max-w-6xl mx-auto">
-
-                {/* Header Area */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <h1 className="text-3xl font-black">My Articles</h1>
-                        <p className="text-base-content/60">Manage and track your published content</p>
-                    </div>
-                    <Link to="/create-article" className="btn btn-primary">
-                        + Write New Article
-                    </Link>
-                </div>
-
-                {/* Table Container */}
-                <div className="card bg-base-100 shadow-xl overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="table table-zebra w-full">
-                            {/* Head */}
-                            <thead className="bg-base-300">
-                                <tr className="text-sm uppercase text-base-content/70">
-                                    <th className="rounded-none">#</th>
-                                    <th>Article Title</th>
-                                    <th>Category</th>
-                                    <th>Published Date</th>
-                                    <th>Status</th>
-                                    <th className="text-center">Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {articles.length > 0 ? (
-                                    articles.map((art, index) => (
-                                        <tr key={art._id} className="hover:bg-base-200/50 transition-colors">
-                                            <th>{index + 1}</th>
-                                            <td className="font-bold max-w-xs truncate">{art.title}</td>
-                                            <td>
-                                                <div className="badge badge-outline badge-sm">{art.category}</div>
-                                            </td>
-                                            <td>{art?._id}</td>
-                                            <td>
-                                                <span className={`badge badge-sm ${art?.status === 'Published' ? 'badge-success' : 'badge-ghost'}`}>
-                                                    {art.status}
-                                                </span>
-                                            </td>
-                                            <td className="flex justify-center gap-2">
-                                                {/* View Action */}
-                                                <div className="tooltip" data-tip="View">
-                                                    <Link to={`/article/${art._id}`} className="btn btn-square btn-sm btn-ghost">
-                                                        <Eye size={18} />
-                                                    </Link>
-                                                </div>
-
-                                                {/* Edit Action */}
-                                                <div className="tooltip" data-tip="Edit">
-                                                    <Link to={`/update-article/${art.id}`} className="btn btn-square btn-sm btn-info btn-outline">
-                                                        <Edit3 size={18} />
-                                                    </Link>
-                                                </div>
-
-                                                {/* Delete Action */}
-                                                <div className="tooltip" data-tip="Delete">
-                                                    <button
-                                                        onClick={() => handleDelete(art._id)}
-                                                        className="btn btn-square btn-sm btn-error btn-outline"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="6" className="text-center py-10">
-                                            <div className="flex flex-col items-center opacity-50">
-                                                <AlertCircle size={48} />
-                                                <p className="mt-2 text-lg font-semibold">No articles found.</p>
-                                                <Link to={"/post-article"} className="link link-primary mt-1">Start writing your first post!</Link>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <MyArticlesList article={articles}></MyArticlesList>
         </div>
     );
 };
