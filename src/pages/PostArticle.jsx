@@ -5,7 +5,6 @@ import useAuth from "../hooks/useAuth";
 import TagInput from './../components/TagInput';
 import { useState } from "react";
 import axios from "axios";
-import { FaStopwatch } from "react-icons/fa";
 
 
 const PostArticle = () => {
@@ -29,10 +28,11 @@ const PostArticle = () => {
         }
 
         const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid, user_email: user.email };
-        console.log(articleData);
 
         axios.post('http://localhost:5000/articles', articleData)
-            .then(res => console.log(res.data))
+            .then(res => {
+                navigate('/my-articles');
+            })
             .catch(err => console.log(err));
 
     }

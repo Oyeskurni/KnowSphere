@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 
 const TagInput = ({ tags, setTags }) => {
     const [inputValue, setInputValue] = useState("");
-    // console.log(tags);
+
 
 
     const addTag = (value) => {

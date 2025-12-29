@@ -5,9 +5,11 @@ import ContentLayout from '../components/ContentLayout';
 import TopContributors from '../components/TopContributors';
 import Banner from '../components/Banner';
 import useArticles from '../hooks/useArticles';
+import useAuth from '../hooks/useAuth';
+import Loading from './../components/Loading';
 
 const Home = () => {
-
+    const { loading } = useAuth();
     const { articles } = useArticles();
 
     return (
@@ -29,6 +31,10 @@ const Home = () => {
 
                 {/* MAIN CONTENT */}
                 <main className="flex-[3]">
+                    {
+                        loading &&
+                        <Loading></Loading>
+                    }
                     <ContentLayout articles={articles} />
                 </main>
 

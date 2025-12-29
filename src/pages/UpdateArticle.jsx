@@ -38,7 +38,7 @@ const UpdateArticle = () => {
         }
 
         const articleData = { ...articleForm, date: formattedDate, tags: tagss };
-        console.log(articleData);
+
 
         axios.patch(`http://localhost:5000/articles/${articles._id}`, articleData)
             .then(() =>

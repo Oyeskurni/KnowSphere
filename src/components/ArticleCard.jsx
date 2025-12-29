@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { MessageSquare, Heart, ThumbsUp, ThumbsDown, Share2, ArrowRight } from "lucide-react";
+import useAuth from "../hooks/useAuth";
+import LikeUnlike from "./LikeUnlike";
 
 const ArticleCard = ({ article }) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
-    if (!article) return null;
+    const { comments } = useAuth();
 
+    if (!article) return null;
 
     const {
         _id,
@@ -14,11 +17,10 @@ const ArticleCard = ({ article }) => {
         author_name,
         author_photo,
         tags,
-        date
+        date,
+        likes,
+        likesCount,
     } = article;
-
-
-
 
     return (
         <div className="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-all duration-200">
@@ -68,15 +70,26 @@ const ArticleCard = ({ article }) => {
                 {/* Actions & Metrics */}
                 <div className="flex justify-between items-center pt-4 border-t border-base-200">
                     <div className="flex items-center gap-4 text-sm text-base-content/70">
-                        <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
-                            <Heart size={16} className="text-error" /> <span>24</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
-                            <ThumbsUp size={16} /> <span>12</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
-                            <MessageSquare size={16} /> <span>6 <span className="hidden sm:inline">comments</span></span>
-                        </div>
+                        {/* <div
+                            onClick={handleLike}
+                            className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors"
+                        >
+                            <Heart
+                                size={16}
+                                className={liked ? "fill-error text-error" : "text-base-content/60"}
+                            />
+                            <span>{likeCount}</span>
+                        </div> */}
+                        <LikeUnlike articleId={_id} likes={likes} likesCount={likesCount}></LikeUnlike>
+
+                        <Link to={`/article/${_id}`}>
+                            <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
+                                <MessageSquare size={16} />
+                                <span>
+                                    {comments?.length || 0} <span className="hidden sm:inline">comments</span>
+                                </span>
+                            </div>
+                        </Link>
 
                     </div>
 

@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, MessageSquare, User, Calendar, Tag, Clock } from "lucide-react"; // Using Lucide for modern icons
+import { Heart, MessageSquare, Calendar, Clock } from "lucide-react"; // Using Lucide for modern icons
 import { useLoaderData } from "react-router";
+import CommentBox from "../components/CommentBox";
+import CommentsList from "../components/CommentsList";
+import useAuth from "../hooks/useAuth";
 
 const ArticleDetails = () => {
     const [likes, setLikes] = useState(0);
-    const [comment, setComment] = useState("");
+    const { comments } = useAuth();
 
-    const { title, content, author_name, author_photo, tags, thumbnail, date, readTime } = useLoaderData();
+
+    const { _id, title, content, author_name, author_photo, tags, thumbnail, date, readTime } = useLoaderData();
 
     const handleLike = async () => {
         // API call to update like in database
         setLikes(prev => prev + 1);
     };
 
-    const handleCommentSubmit = (e) => {
-        e.preventDefault();
-        // API call to store comment in database
-        console.log("Comment submitted:", comment);
-        setComment("");
-    };
+
 
     return (
         <div className="min-h-screen bg-base-200 py-10 px-4">
@@ -92,7 +91,7 @@ const ArticleDetails = () => {
 
                             <div className="btn btn-ghost no-animation cursor-default rounded-full px-6 border border-base-300">
                                 <MessageSquare size={22} className="text-primary" />
-                                <span className="font-bold text-lg">12 <span className="hidden sm:inline">Comments</span></span>
+                                <span className="font-bold text-lg">{comments?.length || 0} <span className="hidden sm:inline">Comments</span></span>
                             </div>
                         </div>
 
@@ -100,46 +99,12 @@ const ArticleDetails = () => {
                         <section className="bg-base-200/50 p-6 md:p-8 rounded-2xl">
                             <h3 className="text-2xl font-black mb-6 flex items-center gap-2">
                                 Discussion
-                                <div className="badge badge-primary">{12}</div>
+                                <div className="badge badge-primary">{comments?.length || 0}</div>
                             </h3>
-                            <form onSubmit={handleCommentSubmit} className="space-y-4">
-                                <textarea
-                                    className="textarea textarea-bordered w-full h-32 text-lg focus:ring-2 focus:ring-primary/20 border-base-300"
-                                    placeholder="Share your thoughts..."
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                    required
-                                ></textarea>
-                                <div className="flex justify-end">
-                                    <button type="submit" className="btn btn-primary btn-md md:btn-lg shadow-lg">
-                                        Post Comment
-                                    </button>
-                                </div>
-                            </form>
+                            <CommentBox article_id={_id}></CommentBox>
 
                             {/* Comments List */}
-                            <div className="mt-12 space-y-8">
-                                <div className="flex gap-4">
-                                    <div className="avatar h-12 w-12 shrink-0">
-                                        <div className="rounded-full ring-1 ring-base-300">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane" alt="User" />
-                                        </div>
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="bg-base-100 p-5 rounded-2xl border border-base-300 shadow-sm">
-                                            <div className="flex justify-between items-center mb-3">
-                                                <span className="font-bold text-base">Jane Smith</span>
-                                                <span className="text-xs opacity-50">2 hours ago</span>
-                                            </div>
-                                            <p className="text-base-content/80">Great insights! I really enjoyed the section on React v19. The new features look very promising.</p>
-                                        </div>
-                                        <div className="flex gap-4 mt-2 ml-2">
-                                            <button className="text-xs font-bold hover:underline opacity-60">Like</button>
-                                            <button className="text-xs font-bold hover:underline opacity-60">Reply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <CommentsList></CommentsList>
                         </section>
 
                     </div>
