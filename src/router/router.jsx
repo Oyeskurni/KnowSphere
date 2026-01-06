@@ -14,6 +14,7 @@ import BookmarkPage from '../pages/BookmarkPage';
 import Setting from '../pages/Setting';
 import PrivateRoute from '../components/PrivateRoute';
 import UpdateArticle from '../pages/UpdateArticle';
+import EditProfileForm from '../components/EditProfileForm';
 
 const router = createBrowserRouter([
     {
@@ -82,8 +83,12 @@ const router = createBrowserRouter([
                 element: <Register />
             },
             {
-                path: '/profile',
+                path: '/setting',
                 element: <Setting></Setting>
+            },
+            {
+                path: '/edit-profile',
+                element: <EditProfileForm></EditProfileForm>
             },
             {
                 path: '*',

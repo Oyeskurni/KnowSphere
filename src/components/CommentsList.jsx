@@ -2,23 +2,8 @@ import React, { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import axios from 'axios';
 
-const CommentsList = () => {
-    // const [comments, setComments] = useState([]);
+const CommentsList = ({ comments }) => {
     const { loading, setLoading } = useAuth();
-    const { comments } = useAuth();
-
-    // useEffect(() => {
-    //     axios.get("http://localhost:5000/comments")
-    //         .then(res => {
-    //             setComments(res.data);
-    //             setLoading(false);
-    //         })
-    //         .catch(err => {
-    //             console.error(err);
-    //             setLoading(false);
-    //         });
-    // }, []);
-
     if (loading) {
         return <p>Loading comments...</p>;
     }

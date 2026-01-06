@@ -1,13 +1,12 @@
-import { useState } from "react";
+
 import { Link } from "react-router";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { MessageSquare, Heart, ThumbsUp, ThumbsDown, Share2, ArrowRight } from "lucide-react";
-import useAuth from "../hooks/useAuth";
 import LikeUnlike from "./LikeUnlike";
+import BookmarkBtn from "./BookmarkBtn";
 
 const ArticleCard = ({ article }) => {
-    const [isBookmarked, setIsBookmarked] = useState(false);
-    const { comments } = useAuth();
+
 
     if (!article) return null;
 
@@ -20,6 +19,7 @@ const ArticleCard = ({ article }) => {
         date,
         likes,
         likesCount,
+        commentCount
     } = article;
 
     return (
@@ -41,12 +41,7 @@ const ArticleCard = ({ article }) => {
                     </div>
 
                     {/* Bookmark Toggle */}
-                    <button
-                        onClick={() => setIsBookmarked(!isBookmarked)}
-                        className={`btn btn-ghost btn-circle btn-sm ${isBookmarked ? 'text-primary' : 'text-base-content/40'}`}
-                    >
-                        {isBookmarked ? <FaBookmark size={18} /> : <FaRegBookmark size={18} />}
-                    </button>
+                    <BookmarkBtn articleId={_id}></BookmarkBtn>
                 </div>
 
                 {/* Content Section */}
@@ -70,23 +65,14 @@ const ArticleCard = ({ article }) => {
                 {/* Actions & Metrics */}
                 <div className="flex justify-between items-center pt-4 border-t border-base-200">
                     <div className="flex items-center gap-4 text-sm text-base-content/70">
-                        {/* <div
-                            onClick={handleLike}
-                            className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors"
-                        >
-                            <Heart
-                                size={16}
-                                className={liked ? "fill-error text-error" : "text-base-content/60"}
-                            />
-                            <span>{likeCount}</span>
-                        </div> */}
+
                         <LikeUnlike articleId={_id} likes={likes} likesCount={likesCount}></LikeUnlike>
 
                         <Link to={`/article/${_id}`}>
                             <div className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors">
                                 <MessageSquare size={16} />
                                 <span>
-                                    {comments?.length || 0} <span className="hidden sm:inline">comments</span>
+                                    {commentCount || 0} <span className="hidden sm:inline">comments</span>
                                 </span>
                             </div>
                         </Link>

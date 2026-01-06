@@ -1,5 +1,5 @@
 import { Heart } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
@@ -12,40 +12,41 @@ const LikeUnlike = ({ articleId, likes = [], likesCount = 0 }) => {
     );
     const [count, setCount] = useState(likesCount);
 
+    useEffect(() => {
+        setCount(likesCount);
+        if (user) {
+            setLiked(likes.includes(user.uid));
+        }
+    }, [likes, likesCount, user]);
+
     const handleLike = async () => {
         if (!user) {
             return Swal.fire({
                 icon: "warning",
                 title: "Login Required",
-                text: "Please login to like this article"
+                text: "Please login to like"
             });
         }
 
-        try {
-            await axios.patch(
-                `http://localhost:5000/articles/like/${articleId}`,
-                { userId: user.uid }
-            );
+        await axios.patch(
+            `http://localhost:5000/articles/like/${articleId}`,
+            { userId: user.uid }
+        );
 
-            setLiked(!liked);
-            setCount(prev => liked ? prev - 1 : prev + 1);
-        } catch (error) {
-            console.error(error);
-        }
+        setLiked(!liked);
+        setCount(prev => liked ? prev - 1 : prev + 1);
     };
 
     return (
-        <div
-            onClick={handleLike}
-            className="flex items-center gap-1.5 hover:bg-base-200 px-2 py-1 rounded-lg cursor-pointer transition-colors"
-        >
+        <div onClick={handleLike} className="flex items-center gap-2 cursor-pointer">
             <Heart
                 size={16}
-                className={liked ? "fill-error text-error" : "text-base-content/60"}
+                className={liked ? "fill-error text-error" : ""}
             />
             <span>{count}</span>
         </div>
     );
 };
+
 
 export default LikeUnlike;

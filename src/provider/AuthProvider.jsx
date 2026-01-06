@@ -2,22 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { auth } from './../firebase/firebase.init';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
-import axios from 'axios';
 
 
 const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
-        axios.get("http://localhost:5000/comments")
-            .then(res => {
-                setComments(res.data);
-            })
-            .catch(err => console.error(err))
-    }, []);
-
 
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
@@ -52,14 +41,12 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         user,
         setUser,
-        comments,
-        setComments,
         loading,
         setLoading,
         createUser,
         signIn,
         googleSignIn,
-        logOut
+        logOut,
     };
     return (
         <AuthContext value={authInfo}>

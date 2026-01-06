@@ -4,21 +4,23 @@ import { Heart, MessageSquare, Calendar, Clock } from "lucide-react"; // Using L
 import { useLoaderData } from "react-router";
 import CommentBox from "../components/CommentBox";
 import CommentsList from "../components/CommentsList";
-import useAuth from "../hooks/useAuth";
+import axios from "axios";
 
 const ArticleDetails = () => {
-    const [likes, setLikes] = useState(0);
-    const { comments } = useAuth();
+    const [comments, setComments] = useState([]);
+    const { _id, title, content, author_name, author_photo, tags, thumbnail, date, readTime, likesCount } = useLoaderData();
 
 
-    const { _id, title, content, author_name, author_photo, tags, thumbnail, date, readTime } = useLoaderData();
-
-    const handleLike = async () => {
-        // API call to update like in database
-        setLikes(prev => prev + 1);
+    const fetchComments = async () => {
+        const res = await axios.get(
+            `http://localhost:5000/comments?articleId=${_id}`
+        );
+        setComments(res.data);
     };
 
-
+    useEffect(() => {
+        fetchComments();
+    }, [_id]);
 
     return (
         <div className="min-h-screen bg-base-200 py-10 px-4">
@@ -81,13 +83,13 @@ const ArticleDetails = () => {
 
                         {/* Interaction Section */}
                         <div className="flex flex-wrap items-center gap-4 md:gap-8 mb-10">
-                            <button
-                                onClick={handleLike}
-                                className="btn btn-ghost hover:bg-error/10 group rounded-full px-6 border border-base-300"
+                            <div
+
+                                className="btn btn-ghost hover:bg-error/10 cursor-default  group rounded-full px-6 border border-base-300"
                             >
-                                <Heart className={likes > 0 ? "fill-error text-error" : "group-hover:text-error"} size={22} />
-                                <span className="font-bold text-lg">{likes}</span>
-                            </button>
+                                <Heart className='fill-error text-error' size={22} />
+                                <span className="font-bold text-lg">{likesCount || 0} likes</span>
+                            </div>
 
                             <div className="btn btn-ghost no-animation cursor-default rounded-full px-6 border border-base-300">
                                 <MessageSquare size={22} className="text-primary" />
@@ -101,10 +103,10 @@ const ArticleDetails = () => {
                                 Discussion
                                 <div className="badge badge-primary">{comments?.length || 0}</div>
                             </h3>
-                            <CommentBox article_id={_id}></CommentBox>
+                            <CommentBox articleId={_id} refetch={fetchComments}></CommentBox>
 
                             {/* Comments List */}
-                            <CommentsList></CommentsList>
+                            <CommentsList comments={comments}></CommentsList>
                         </section>
 
                     </div>

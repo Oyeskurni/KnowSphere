@@ -13,7 +13,7 @@ const Profile = () => {
         {
             name: 'Settings',
             icon: <CiSettings />,
-            path: '/profile'
+            path: '/setting'
         },
 
         {
@@ -61,22 +61,36 @@ const Profile = () => {
                 {/* Menu Links */}
                 {
                     menuLinks.map((link, index) => (
-                        <li key={index} className=" flex  items-center gap-2 hover:bg-base-200 p-2 pl-2 rounded-md hover:cursor-pointer hover:text-primary">
-                            <div>
-                                {link.icon}
-                            </div>
-                            <Link to={link.path}>{link.name}</Link>
+
+                        <li
+                            key={index}
+
+                        >
+                            <Link to={link.path} className="flex items-center gap-2 hover:bg-base-200 p-2 pl-2 rounded-md hover:cursor-pointer hover:text-primary">
+                                <div>
+                                    {link.icon}
+                                </div>
+                                <span>{link.name}</span>
+                            </Link>
+
                         </li>
+
                     ))
                 }
 
                 {/* Mobile Only */}
-                <li className="flex  items-center gap-2 hover:bg-base-200 p-2 pl-2 rounded-md hover:cursor-pointer hover:text-primary  ">
-                    <div>
-                        <IoCreateOutline className='text-xl' />
-                    </div>
-                    <Link to="/post-article">Post Article</Link>
+                <li>
+                    <Link
+                        to="/post-article"
+                        className="flex items-center gap-2 hover:bg-base-200 p-2 pl-2 rounded-md hover:cursor-pointer hover:text-primary"
+                    >
+                        <div>
+                            <IoCreateOutline className="text-xl" />
+                        </div>
+                        <span>Post Article</span>
+                    </Link>
                 </li>
+
 
                 <li className='border-b border-base-300 pb-4 mb-4'></li>
                 <li

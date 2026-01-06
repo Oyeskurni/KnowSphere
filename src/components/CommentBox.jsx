@@ -4,9 +4,9 @@ import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 
-const CommentBox = ({ article_id }) => {
+const CommentBox = ({ articleId, refetch }) => {
     const [comment, setComment] = useState("");
-    const { user, comments, setComments } = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     const handleCommentSubmit = async (e) => {
@@ -31,7 +31,7 @@ const CommentBox = ({ article_id }) => {
             return;
         }
         const commentData = {
-            articleId: article_id,
+            articleId: articleId,
             content: comment,
             user_name: user.displayName,
             user_email: user.email,
@@ -49,9 +49,8 @@ const CommentBox = ({ article_id }) => {
                 showConfirmButton: false
             });
 
-            // 🔥 INSTANT UI UPDATE
-            setComments([res.data, ...comments]);
             setComment("");
+            refetch();
 
         } catch (error) {
             Swal.fire({

@@ -4,6 +4,7 @@ import {
     Settings, Mail, MapPin, Calendar,
     Edit3, Grid, Heart, BookMarked, MessageCircle
 } from "lucide-react";
+import { Link } from "react-router";
 
 const Setting = () => {
     const [activeTab, setActiveTab] = useState("posts");
@@ -55,10 +56,12 @@ const Setting = () => {
                                     <Calendar size={18} /> <span>Joined {user.joined}</span>
                                 </div>
                             </div>
+                            <Link to='/edit-profile'>
+                                <button className="btn btn-primary btn-block mt-6 gap-2">
+                                    <Edit3 size={18} /> Edit Profile
+                                </button>
+                            </Link>
 
-                            <button className="btn btn-primary btn-block mt-6 gap-2">
-                                <Edit3 size={18} /> Edit Profile
-                            </button>
                         </div>
 
                         {/* Quick Stats Widget */}

@@ -1,44 +1,59 @@
-import { useState } from "react";
-import { Link } from "react-router"; // v7+
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bookmark, Search, Trash2, Clock, ExternalLink, Inbox } from "lucide-react";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 const BookmarkPage = () => {
+    const { user } = useAuth();
+
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
 
-    // Mock data for bookmarked articles
-    const [bookmarks, setBookmarks] = useState([
-        {
-            id: "1",
-            title: "The Future of AI in Student Life",
-            author: "Afra Anjum",
-            date: "Jun 12",
-            category: "Education",
-            image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80"
-        },
-        {
-            id: "2",
-            title: "Mastering Tailwind CSS Grid Layouts",
-            author: "John Doe",
-            date: "Dec 20",
-            category: "Design",
-            image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&q=80"
+    // 🔹 Fetch bookmarked articles
+    useEffect(() => {
+        if (user?.email) {
+            axios
+                .get(`http://localhost:5000/my-bookmarks?user_email=${user.email}`)
+                .then(res => {
+                    setArticles(res.data);
+                    setLoading(false);
+                })
+                .catch(() => setLoading(false));
         }
-    ]);
+    }, [user]);
 
-    const removeBookmark = (id) => {
-        setBookmarks(bookmarks.filter((item) => item.id !== id));
+    // 🔹 Remove bookmark (DB + UI sync)
+    const removeBookmark = async (articleId) => {
+        axios.delete(
+            `http://localhost:5000/my-bookmarks/${articleId}`,
+            { params: { user_email: user.email } }
+        )
+
+
+        setArticles(prev =>
+            prev.filter(article => article._id !== articleId)
+        );
     };
 
-    const filteredBookmarks = bookmarks.filter((b) =>
-        b.title.toLowerCase().includes(searchQuery.toLowerCase())
+    // 🔹 Search filter
+    const filteredBookmarks = articles.filter(article =>
+        article.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if (loading) return <p>Loading...</p>;
+
+    if (articles.length === 0) {
+        return <p className="text-center mt-10">No saved articles 📭</p>;
+    }
 
     return (
         <div className="min-h-screen bg-base-200/50 py-10 px-4 md:px-8">
             <div className="max-w-5xl mx-auto">
 
-                {/* Header Section */}
+                {/* Header */}
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                     <div>
                         <h1 className="text-4xl font-black flex items-center gap-3">
@@ -46,11 +61,11 @@ const BookmarkPage = () => {
                             Reading List
                         </h1>
                         <p className="text-base-content/60 mt-2">
-                            You have {bookmarks.length} articles saved for later.
+                            You have {articles.length} articles saved for later.
                         </p>
                     </div>
 
-                    {/* Search Bar */}
+                    {/* Search */}
                     <div className="relative w-full md:w-80">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40" size={18} />
                         <input
@@ -63,13 +78,13 @@ const BookmarkPage = () => {
                     </div>
                 </header>
 
-                {/* Bookmarks Grid */}
+                {/* Bookmark List */}
                 <div className="grid gap-4">
                     <AnimatePresence mode="popLayout">
                         {filteredBookmarks.length > 0 ? (
-                            filteredBookmarks.map((item) => (
+                            filteredBookmarks.map(item => (
                                 <motion.div
-                                    key={item.id}
+                                    key={item._id}
                                     layout
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -78,7 +93,11 @@ const BookmarkPage = () => {
                                 >
                                     {/* Thumbnail */}
                                     <figure className="hidden sm:block w-48 shrink-0">
-                                        <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
+                                        <img
+                                            src={item.thumbnail}
+                                            alt={item.title}
+                                            className="h-full w-full object-cover"
+                                        />
                                     </figure>
 
                                     <div className="card-body p-5 flex-row justify-between items-center">
@@ -90,20 +109,24 @@ const BookmarkPage = () => {
                                                     <Clock size={12} /> {item.date}
                                                 </span>
                                             </div>
-                                            <Link to={`/article/${item.id}`}>
+
+                                            <Link to={`/article/${item._id}`}>
                                                 <h2 className="card-title text-lg md:text-xl group-hover:text-primary transition-colors line-clamp-1">
                                                     {item.title}
                                                 </h2>
                                             </Link>
-                                            <p className="text-sm text-base-content/60">by {item.author}</p>
+
+                                            <p className="text-sm text-base-content/60">
+                                                by {item.author_name}
+                                            </p>
                                         </div>
 
                                         <div className="flex items-center gap-2">
-                                            <Link to={`/article/${item.id}`} className="btn btn-ghost btn-circle btn-sm">
+                                            <Link to={`/article/${item._id}`} className="btn btn-ghost btn-circle btn-sm">
                                                 <ExternalLink size={18} />
                                             </Link>
                                             <button
-                                                onClick={() => removeBookmark(item.id)}
+                                                onClick={() => removeBookmark(item._id)}
                                                 className="btn btn-ghost btn-circle btn-sm text-error hover:bg-error/10"
                                                 title="Remove Bookmark"
                                             >
@@ -121,7 +144,9 @@ const BookmarkPage = () => {
                             >
                                 <Inbox size={64} strokeWidth={1} />
                                 <p className="text-xl font-medium mt-4">No bookmarks found</p>
-                                <Link to="/" className="btn btn-primary btn-sm mt-4">Browse Articles</Link>
+                                <Link to="/" className="btn btn-primary btn-sm mt-4">
+                                    Browse Articles
+                                </Link>
                             </motion.div>
                         )}
                     </AnimatePresence>
