@@ -5,7 +5,7 @@ const useArticleApi = () => {
     const axiosSecure = UseAxiosSecure();
 
     const myArticlesPromise = email => {
-        return axiosSecure.get(`/articles?email=${email}`)
+        return axiosSecure.get(`/my-articles?email=${email}`)
             .then(res => res.data);
     }
     return { myArticlesPromise };

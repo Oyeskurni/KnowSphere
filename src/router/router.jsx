@@ -28,9 +28,26 @@ const router = createBrowserRouter([
             },
             {
                 path: '/all-articles',
-                loader: () => fetch('https://knowledge-server-xhu2.onrender.com/articles'),
+                loader: async ({ request }) => {
+                    const url = new URL(request.url);
+
+                    // 🔽 query params
+                    const category = url.searchParams.get("category");
+                    const tag = url.searchParams.get("tag");
+
+                    let apiUrl = "https://knowledge-server-xhu2.onrender.com/articles";
+
+                    if (category) {
+                        apiUrl += `?category=${category}`;
+                    } else if (tag) {
+                        apiUrl += `?tag=${tag}`;
+                    }
+
+                    return fetch(apiUrl);
+                },
                 element: <AllArticles />
             },
+
             {
                 path: '/article/:id',
                 loader: async ({ params }) => {
