@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import useAuth from './../hooks/useAuth';
-import { myArticlesPromise } from '../api/myArticlesPromise';
 import MyArticlesList from '../components/MyArticlesList';
+import useArticleApi from '../api/useArticleApi';
 
 const MyArticles = () => {
     const { user, loading, setLoading } = useAuth();
     const [articles, setArticles] = useState([]);
+    const { myArticlesPromise } = useArticleApi();
 
     useEffect(() => {
         if (user?.email) {
