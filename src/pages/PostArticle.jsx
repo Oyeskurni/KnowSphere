@@ -29,7 +29,7 @@ const PostArticle = () => {
 
         const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid, user_email: user.email };
 
-        axios.post('http://localhost:5000/articles', articleData)
+        axios.post('https://knowledge-server-xhu2.onrender.com/articles', articleData)
             .then(res => {
                 navigate('/my-articles');
             })

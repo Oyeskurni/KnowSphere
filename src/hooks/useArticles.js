@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 const useArticles = () => {
 const [articles, setArticles] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:5000/articles')
+        axios.get('https://knowledge-server-xhu2.onrender.com/articles')
             .then(res => {
                 setArticles(res.data);
             })

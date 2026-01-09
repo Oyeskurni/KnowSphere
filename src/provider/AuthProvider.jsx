@@ -35,7 +35,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
 
             if (user?.email) {
-                axios.post('http://localhost:5000/jwt',
+                axios.post('https://knowledge-server-xhu2.onrender.com/jwt',
                     { email: user.email },
                     {
                         withCredentials: true

@@ -24,7 +24,7 @@ const MyArticlesList = ({ article }) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await fetch(`http://localhost:5000/articles/${id}`, {
+                    const res = await fetch(`https://knowledge-server-xhu2.onrender.com/articles/${id}`, {
                         method: "DELETE",
                     });
 

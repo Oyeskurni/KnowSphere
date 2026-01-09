@@ -28,13 +28,13 @@ const router = createBrowserRouter([
             },
             {
                 path: '/all-articles',
-                loader: () => fetch('http://localhost:5000/articles'),
+                loader: () => fetch('https://knowledge-server-xhu2.onrender.com/articles'),
                 element: <AllArticles />
             },
             {
                 path: '/article/:id',
                 loader: async ({ params }) => {
-                    const res = await fetch(`http://localhost:5000/articles/${params.id}`);
+                    const res = await fetch(`https://knowledge-server-xhu2.onrender.com/articles/${params.id}`);
 
                     if (!res.ok) {
                         throw new Response("Article not found", { status: 404 });
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             {
                 path: '/update-article/:id',
                 loader: async ({ params }) => {
-                    const res = await fetch(`http://localhost:5000/articles/${params.id}`);
+                    const res = await fetch(`https://knowledge-server-xhu2.onrender.com/articles/${params.id}`);
 
                     if (!res.ok) {
                         throw new Response("Article not found", { status: 404 });

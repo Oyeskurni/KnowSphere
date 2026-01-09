@@ -1,10 +1,8 @@
 import axios from 'axios';
-import React from 'react';
 import useAuth from './useAuth';
 
 const axiosInstance = axios.create({
-    baseURL: `http://localhost:5000`,
-    withCredentials: true,
+    baseURL: `https://knowledge-server-xhu2.onrender.com`,
 })
 const UseAxiosSecure = () => {
     const { user, logOut } = useAuth();
