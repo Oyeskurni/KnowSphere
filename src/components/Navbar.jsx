@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import NavLinks from './NavLinks';
-import logo from '../assets/sharing-idea.jpg';
+import logo from '../assets/kno-logo.png';
 import HamMenu from './HamMenu';
 import Profile from './Profile';
 import useAuth from '../hooks/useAuth';
