@@ -186,9 +186,21 @@ const PostArticle = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <button type="submit" className="btn btn-primary btn-block gap-2 shadow-lg">
-                        <Send size={18} /> Publish Article
+                    <button
+                        type="submit"
+                        className="group btn-block flex items-center justify-center gap-2 bg-indigo-500 px-6 py-2 font-medium text-white transition-all duration-300 shadow-[3px_3px_0px_#000] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+                    >
+                        <span className="transition-all duration-300 group-hover:pr-1">
+                            Publish Article
+                        </span>
+
+                        <Send
+                            size={18}
+                            className="opacity-0 translate-x-[-6px] rotate-[-15deg] transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:rotate-0"
+                        />
+
                     </button>
+
                 </form>
             </div>
 

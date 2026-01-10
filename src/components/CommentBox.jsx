@@ -71,7 +71,7 @@ const CommentBox = ({ articleId, refetch }) => {
                     onChange={(e) => setComment(e.target.value)}
                 ></textarea>
                 <div className="flex justify-end">
-                    <button type="submit" className="btn btn-primary btn-md md:btn-lg shadow-lg">
+                    <button type="submit" className="bg-indigo-500 px-6 py-3 font-medium text-white transition-all duration-300 shadow-[3px_3px_0px_#000] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none">
                         Post Comment
                     </button>
                 </div>

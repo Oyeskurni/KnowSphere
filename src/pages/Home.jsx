@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import CategoryTabs from '../components/CategoryTabs ';
 import SocialMediaLinks from '../components/SocialMediaLinks';
 import ContentLayout from '../components/ContentLayout';

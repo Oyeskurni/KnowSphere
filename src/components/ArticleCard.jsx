@@ -82,10 +82,18 @@ const ArticleCard = ({ article, index }) => {
 
                     </div>
 
-                    <Link to={`/article/${_id}`} className="btn btn-ghost btn-sm group-hover:gap-3 transition-all text-primary border-none bg-primary/5 hover:bg-primary hover:text-white">
+                    <Link
+                        to={`/article/${_id}`}
+                        className="read-more-neo group inline-flex items-center gap-2 bg-indigo-500 px-6 py-2 font-medium text-white transition-all duration-300 shadow-[3px_3px_0px_#000] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+                    >
                         Read More
-                        <ArrowRight size={16} />
+                        <ArrowRight
+                            size={16}
+                            className="transition-transform duration-300 group-hover:translate-x-1"
+                        />
                     </Link>
+
+
                 </div>
 
             </div>

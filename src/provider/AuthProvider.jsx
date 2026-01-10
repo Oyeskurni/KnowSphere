@@ -3,8 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { auth } from './../firebase/firebase.init';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import axios from 'axios';
-import Aos from "aos";
-import "aos/dist/aos.css";
+
 
 const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
@@ -52,30 +51,6 @@ const AuthProvider = ({ children }) => {
         });
         return () => unsubscribe();
     }, []);
-
-
-
-
-
-    // AOS init
-    useEffect(() => {
-        Aos.init({
-            duration: 1000,
-            once: true,
-            offset: 100,
-            easing: "ease-in-out",
-        });
-    }, []);
-
-    // refresh when data changes (important for loader data)
-    useEffect(() => {
-        Aos.refresh();
-    }, []);
-
-
-
-
-
 
 
     const authInfo = {
