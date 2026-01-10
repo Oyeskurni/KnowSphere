@@ -31,17 +31,17 @@ const Footer = () => {
       ">
 
                 {/* Brand */}
-                <div>
-                    <h2 className="text-2xl font-bold text-primary">KnowSphere</h2>
-                    <p className="mt-3 text-sm leading-relaxed">
+                <div >
+                    <h2 data-aos="fade-up" className="text-2xl font-bold text-primary">KnowSphere</h2>
+                    <p data-aos="fade-up" data-aos-delay="50" className="mt-3 text-sm leading-relaxed">
                         A modern platform to share posts, ideas and connect with people.
                     </p>
                 </div>
 
                 {/* Quick Links */}
                 <div>
-                    <h6 className="footer-title">Quick Links</h6>
-                    <ul className="space-y-2">
+                    <h6 data-aos="fade-up" className="footer-title">Quick Links</h6>
+                    <ul data-aos="fade-up" data-aos-delay="100" className="space-y-2">
                         {
                             quickLinks.map((link, idx) => (
                                 <li key={idx}>
@@ -54,9 +54,9 @@ const Footer = () => {
 
                 {/* Resources */}
                 <div>
-                    <h6 className="footer-title">Resources</h6>
+                    <h6 data-aos="fade-up" className="footer-title">Resources</h6>
 
-                    <ul className="space-y-2">
+                    <ul data-aos="fade-up" data-aos-delay="100" className="space-y-2">
                         {
                             resources.map((resource, idx) => (
                                 <li key={idx}>
@@ -69,14 +69,19 @@ const Footer = () => {
 
                 {/* Social */}
                 <div>
-                    <h6 className="footer-title">Social</h6>
-                    <SocialMediaLinks></SocialMediaLinks>
+                    <h6 data-aos="fade-up" className="footer-title">Social</h6>
+                    <div data-aos="fade-up" data-aos-delay="100" className="mt-2">
+                        <SocialMediaLinks></SocialMediaLinks>
+                    </div>
                 </div>
             </div>
 
             {/* Bottom Footer */}
             <div className="border-t border-base-300">
-                <div className="
+                <div
+                    data-aos="fade-up"
+                    data-aos-delay="50"
+                    className="
           max-w-7xl mx-auto 
           px-6 py-4
           text-center text-sm

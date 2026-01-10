@@ -31,27 +31,36 @@ const router = createBrowserRouter([
                 loader: async ({ request }) => {
                     const url = new URL(request.url);
 
-                    // 🔽 query params
                     const category = url.searchParams.get("category");
                     const tag = url.searchParams.get("tag");
 
-                    let apiUrl = "https://knowledge-server-xhu2.onrender.com/articles";
+                    let apiUrl = "https://knowledge-server-1.onrender.com/articles";
 
-                    if (category) {
-                        apiUrl += `?category=${category}`;
-                    } else if (tag) {
-                        apiUrl += `?tag=${tag}`;
+                    const params = new URLSearchParams();
+
+                    if (category) params.append("category", category);
+                    if (tag) params.append("tag", tag);
+
+                    if ([...params].length > 0) {
+                        apiUrl += `?${params.toString()}`;
                     }
 
-                    return fetch(apiUrl);
+                    const res = await fetch(apiUrl);
+
+                    if (!res.ok) {
+                        throw new Error("Failed to fetch articles from server");
+                    }
+
+                    return res.json(); // return JSON
                 },
+
                 element: <AllArticles />
             },
 
             {
                 path: '/article/:id',
                 loader: async ({ params }) => {
-                    const res = await fetch(`https://knowledge-server-xhu2.onrender.com/articles/${params.id}`);
+                    const res = await fetch(`https://knowledge-server-1.onrender.com/articles/${params.id}`);
 
                     if (!res.ok) {
                         throw new Response("Article not found", { status: 404 });
@@ -68,7 +77,7 @@ const router = createBrowserRouter([
             {
                 path: '/update-article/:id',
                 loader: async ({ params }) => {
-                    const res = await fetch(`https://knowledge-server-xhu2.onrender.com/articles/${params.id}`);
+                    const res = await fetch(`https://knowledge-server-1.onrender.com/articles/${params.id}`);
 
                     if (!res.ok) {
                         throw new Response("Article not found", { status: 404 });

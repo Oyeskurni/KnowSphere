@@ -8,18 +8,20 @@ const Banner = () => {
 
                     {/* Text Content */}
                     <div>
-                        <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+                        <h1 data-aos="fade-up" className="text-4xl md:text-5xl font-bold leading-tight">
                             Share Your Knowledge <br />
                             <span className="text-primary">With the World</span>
                         </h1>
 
-                        <p className="mt-4 text-gray-600 text-lg">
+                        <p data-aos="fade-up" data-aos-delay="50" className="mt-4 text-gray-600 text-lg">
                             Write articles, share ideas, and help others grow by spreading
                             your knowledge in technology, programming, and more.
                         </p>
 
                         <div className="mt-6 flex gap-4">
                             <Link
+                                data-aos="fade-right"
+                                data-aos-delay="100"
                                 to="/all-articles"
                                 className="btn btn-primary"
                             >
@@ -27,6 +29,8 @@ const Banner = () => {
                             </Link>
 
                             <Link
+                                data-aos="fade-left"
+                                data-aos-delay="200"
                                 to="/post-article"
                                 className="btn btn-outline"
                             >
@@ -37,7 +41,7 @@ const Banner = () => {
 
                     {/* Image / Illustration */}
                     <div data-aos="fade-up"
-                        data-aos-anchor-placement="bottom-center" className="hidden md:block">
+                        className="hidden md:block">
                         <img
                             src={knwoImage}
                             alt="Knowledge Sharing"

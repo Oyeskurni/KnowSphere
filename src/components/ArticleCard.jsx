@@ -5,7 +5,7 @@ import { MessageSquare, Heart, ThumbsUp, ThumbsDown, Share2, ArrowRight } from "
 import LikeUnlike from "./LikeUnlike";
 import BookmarkBtn from "./BookmarkBtn";
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, index }) => {
 
 
     if (!article) return null;
@@ -23,7 +23,10 @@ const ArticleCard = ({ article }) => {
     } = article;
 
     return (
-        <div className="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-all duration-200">
+        <div
+            data-aos="zoom-in"
+            data-aos-delay={index * 100}
+            className="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-all duration-200">
             <div className="card-body p-5 gap-4">
 
                 {/* Author Header */}

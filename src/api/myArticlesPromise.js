@@ -1,5 +1,5 @@
 export const myArticlesPromise = (email, token) => {
-    return fetch(`https://knowledge-server-xhu2.onrender.com/articles?email=${email}`,
+    return fetch(`https://knowledge-server-1.onrender.com/articles?email=${email}`,
         {
             headers: {
                 Authorization: `Bearer ${token}`

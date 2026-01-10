@@ -24,7 +24,7 @@ const MyArticlesList = ({ article }) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await fetch(`https://knowledge-server-xhu2.onrender.com/articles/${id}`, {
+                    const res = await fetch(`https://knowledge-server-1.onrender.com/articles/${id}`, {
                         method: "DELETE",
                     });
 
@@ -56,17 +56,17 @@ const MyArticlesList = ({ article }) => {
             <div className="max-w-6xl mx-auto">
                 {/* Header Area */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
+                    <div data-aos="fade-down" className="space-y-2">
                         <h1 className="text-3xl font-black">My Articles</h1>
                         <p className="text-base-content/60">Manage and track your published content</p>
                     </div>
-                    <Link to="/create-article" className="btn btn-primary">
+                    <Link data-aos="fade-left" to="/create-article" className="btn btn-primary">
                         + Write New Article
                     </Link>
                 </div>
 
                 {/* Table Container */}
-                <div className="card bg-base-100 shadow-xl overflow-hidden">
+                <div data-aos="fade-up" className="card bg-base-100 shadow-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="table table-zebra w-full">
                             <thead className="bg-base-300">
@@ -108,7 +108,7 @@ const MyArticlesList = ({ article }) => {
                                 ) : (
                                     <tr>
                                         <td colSpan="6" className="text-center py-10">
-                                            <div className="flex flex-col items-center opacity-50">
+                                            <div data-aos="fade-up" className="flex flex-col items-center opacity-50">
                                                 <AlertCircle size={48} />
                                                 <p className="mt-2 text-lg font-semibold">No articles found.</p>
                                                 <Link to="/create-article" className="link link-primary mt-1">

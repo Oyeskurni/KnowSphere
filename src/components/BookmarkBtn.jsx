@@ -10,7 +10,7 @@ const BookmarkBtn = ({ articleId }) => {
     useEffect(() => {
         if (!user) return;
 
-        axios.get('https://knowledge-server-xhu2.onrender.com/bookmarks/check', {
+        axios.get('https://knowledge-server-1.onrender.com/bookmarks/check', {
             params: {
                 articleId,
                 user_email: user.email
@@ -21,7 +21,7 @@ const BookmarkBtn = ({ articleId }) => {
     }, [articleId, user]);
 
     const handleBookmark = async () => {
-        const res = await axios.post('https://knowledge-server-xhu2.onrender.com/bookmarks', {
+        const res = await axios.post('https://knowledge-server-1.onrender.com/bookmarks', {
             articleId,
             user_email: user.email
         });

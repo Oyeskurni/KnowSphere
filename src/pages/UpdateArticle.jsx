@@ -40,7 +40,7 @@ const UpdateArticle = () => {
         const articleData = { ...articleForm, date: formattedDate, tags: tagss };
 
 
-        axios.patch(`https://knowledge-server-xhu2.onrender.com/articles/${articles._id}`, articleData)
+        axios.patch(`https://knowledge-server-1.onrender.com/articles/${articles._id}`, articleData)
             .then(() =>
                 navigate('/my-articles')
             )

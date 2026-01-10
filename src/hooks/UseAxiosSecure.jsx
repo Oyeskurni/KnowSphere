@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuth from './useAuth';
 
 const axiosInstance = axios.create({
-    baseURL: `https://knowledge-server-xhu2.onrender.com`,
+    baseURL: `https://knowledge-server-1.onrender.com`,
 })
 const UseAxiosSecure = () => {
     const { user, logOut } = useAuth();

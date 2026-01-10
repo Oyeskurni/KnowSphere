@@ -7,6 +7,7 @@ const MyArticles = () => {
     const { user, loading, setLoading } = useAuth();
     const [articles, setArticles] = useState([]);
     const { myArticlesPromise } = useArticleApi();
+    console.log(articles);
 
     useEffect(() => {
         if (user?.email) {

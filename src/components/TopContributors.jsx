@@ -3,7 +3,7 @@ import React from 'react';
 const TopContributors = () => {
     return (
         <div className='flex flex-col gap-4'>
-            <div className="card bg-base-200">
+            <div data-aos="fade-up" className="card bg-base-200">
                 <div className="card-body">
                     <h3 className="font-bold">🏆 Top Contributors</h3>
                     <ul className="space-y-2 text-sm">
@@ -15,7 +15,7 @@ const TopContributors = () => {
             </div>
 
 
-            <div className="card bg-base-100 border">
+            <div data-aos="fade-up" data-aos-delay="200" className="card bg-base-100 border">
                 <div className="card-body text-sm">
                     <h3 className="font-bold">📘 About KnowSphere</h3>
                     <p>

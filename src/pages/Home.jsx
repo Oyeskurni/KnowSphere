@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CategoryTabs from '../components/CategoryTabs ';
 import SocialMediaLinks from '../components/SocialMediaLinks';
 import ContentLayout from '../components/ContentLayout';
@@ -7,10 +7,11 @@ import Banner from '../components/Banner';
 import useArticles from '../hooks/useArticles';
 import useAuth from '../hooks/useAuth';
 import Loading from './../components/Loading';
-
 const Home = () => {
     const { loading } = useAuth();
     const { articles } = useArticles();
+
+
 
     return (
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 pt-14 pb-20">
@@ -21,9 +22,11 @@ const Home = () => {
                 {/* LEFT SIDEBAR */}
                 <aside className="flex-1 hidden md:block">
                     <div className="sticky top-24">
-                        <CategoryTabs />
+                        <div data-aos="fade-down">
+                            <CategoryTabs />
+                        </div>
 
-                        <div className="border-t border-base-300 mt-6 pt-6">
+                        <div data-aos="fade-down" className="border-t border-base-300 mt-6 pt-6">
                             <SocialMediaLinks />
                         </div>
                     </div>

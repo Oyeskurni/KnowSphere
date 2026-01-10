@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router"; // React Router v7
-import { motion } from "framer-motion";
 import { ImagePlus, Send, Tag, LayoutGrid, Type, Clock } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import TagInput from './../components/TagInput';
@@ -29,7 +28,7 @@ const PostArticle = () => {
 
         const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid, user_email: user.email };
 
-        axios.post('https://knowledge-server-xhu2.onrender.com/articles', articleData)
+        axios.post('https://knowledge-server-1.onrender.com/articles', articleData)
             .then(res => {
                 navigate('/my-articles');
             })
@@ -58,17 +57,16 @@ const PostArticle = () => {
 
     return (
         <div className="min-h-screen bg-base-200 py-12 px-4">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+            <div
+                data-aos="fade-up"
                 className="max-w-3xl mx-auto bg-base-100 rounded-2xl shadow-xl p-8"
             >
-                <div className="mb-8 border-b pb-4">
+                <div data-aos="fade-up" data-aos-delay="100" className="mb-8 border-b pb-4">
                     <h1 className="text-3xl font-black text-base-content">Create New Article</h1>
                     <p className="text-base-content/60">Share your thoughts with the community.</p>
                 </div>
 
-                <form onSubmit={handleFormSubmit} className="space-y-6">
+                <form data-aos="fade-up" data-aos-delay="200" onSubmit={handleFormSubmit} className="space-y-6">
 
                     {/* Title Field */}
                     <div className="form-control">
@@ -192,7 +190,7 @@ const PostArticle = () => {
                         <Send size={18} /> Publish Article
                     </button>
                 </form>
-            </motion.div>
+            </div>
 
 
         </div>

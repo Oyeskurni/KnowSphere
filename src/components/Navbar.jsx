@@ -1,4 +1,3 @@
-import React, { use } from 'react';
 import { Link } from 'react-router';
 import NavLinks from './NavLinks';
 import logo from '../assets/sharing-idea.jpg';
