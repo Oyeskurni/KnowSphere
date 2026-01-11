@@ -6,7 +6,7 @@ const Banner = () => {
 
     return (
         <div>
-            <div className="max-w-7xl mx-auto px-4 pb-16">
+            <div className="max-w-7xl mx-auto sm:px-4 md:px-6 pb-16">
                 <div className="grid md:grid-cols-2 gap-10 items-center">
 
                     {/* Text Content */}

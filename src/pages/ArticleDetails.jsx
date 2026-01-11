@@ -13,7 +13,7 @@ const ArticleDetails = () => {
 
     const fetchComments = async () => {
         const res = await axios.get(
-            `https://knowledge-server-1.onrender.com/comments?articleId=${_id}`
+            `https://knowledge-server-wkhc.onrender.com/comments?articleId=${_id}`
         );
         setComments(res.data);
     };

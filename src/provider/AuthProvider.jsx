@@ -35,14 +35,14 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
 
             if (user?.email) {
-                axios.post('https://knowledge-server-1.onrender.com/jwt',
+                axios.post('https://knowledge-server-wkhc.onrender.com/jwt',
                     { email: user.email },
                     {
                         withCredentials: true
                     }
                 )
                     .then(res => {
-                        console.log(res.data);
+
                     })
                     .catch(err => {
                         console.error(err);

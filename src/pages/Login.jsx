@@ -18,13 +18,11 @@ const Login = () => {
         const form = e.target;
         const formData = new FormData(form);
         const { email, password } = Object.fromEntries(formData.entries());
-        console.log(email, password);
+
 
         signIn(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user);
-
 
                 // setError(null);
                 // form.reset();
@@ -40,7 +38,6 @@ const Login = () => {
         googleSignIn()
             .then((result) => {
                 const user = result.user;
-                console.log(user);
                 navigate(form);
             }).catch((error) => {
                 console.error(error);

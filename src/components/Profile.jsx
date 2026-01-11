@@ -32,7 +32,7 @@ const Profile = () => {
         if (!confirm("Are you sure you want to logout?")) return;
         logOut()
             .then(() => {
-                console.log('log out successfully');
+
 
             })
             .catch(err => console.log(err));

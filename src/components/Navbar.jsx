@@ -12,7 +12,7 @@ const Navbar = () => {
         <div className="navbar max-w-7xl mx-auto px-3 sm:px-4 md:px-6 flex gap-2 md:gap-4 lg:gap-6 ">
 
             {/* 🔹 LEFT */}
-            <div className="navbar-start flex flex-3 gap-4">
+            <div className="navbar-start flex flex-3 gap-2 ">
                 <div className='md:hidden'>
                     <HamMenu></HamMenu>
                 </div>

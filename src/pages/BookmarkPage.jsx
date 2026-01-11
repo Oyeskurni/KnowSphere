@@ -16,7 +16,7 @@ const BookmarkPage = () => {
     useEffect(() => {
         if (user?.email) {
             axios
-                .get(`https://knowledge-server-1.onrender.com/my-bookmarks?user_email=${user.email}`)
+                .get(`https://knowledge-server-wkhc.onrender.com/my-bookmarks?user_email=${user.email}`)
                 .then(res => {
                     setArticles(res.data);
                     setLoading(false);
@@ -28,7 +28,7 @@ const BookmarkPage = () => {
     // 🔹 Remove bookmark (DB + UI sync)
     const removeBookmark = async (articleId) => {
         axios.delete(
-            `https://knowledge-server-1.onrender.com/my-bookmarks/${articleId}`,
+            `https://knowledge-server-wkhc.onrender.com/my-bookmarks/${articleId}`,
             { params: { user_email: user.email } }
         )
 

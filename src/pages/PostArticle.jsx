@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import TagInput from './../components/TagInput';
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const PostArticle = () => {
@@ -13,28 +14,63 @@ const PostArticle = () => {
 
     const { user } = useAuth();
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const articleForm = Object.fromEntries(formData.entries());
-        // formatDate
+
         const formattedDate = formatDate(articleForm.date);
-        // Validate readTime05
+
         if (!validateReadTime(articleForm.readTime)) {
-            setError("Read time must be a positive number");
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Read Time",
+                text: "Read time must be a positive number",
+                confirmButtonColor: "#6366f1", // indigo-500
+            });
             return;
         }
 
-        const articleData = { ...articleForm, date: formattedDate, tags, author_photo: user.photoURL, author_name: user.displayName, author_id: user.uid, user_email: user.email };
+        const articleData = {
+            ...articleForm,
+            date: formattedDate,
+            tags,
+            author_photo: user.photoURL,
+            author_name: user.displayName,
+            author_id: user.uid,
+            user_email: user.email,
+        };
 
-        axios.post('https://knowledge-server-1.onrender.com/articles', articleData)
-            .then(res => {
-                navigate('/my-articles');
-            })
-            .catch(err => console.log(err));
+        try {
+            await axios.post(
+                "https://knowledge-server-wkhc.onrender.com/articles",
+                articleData
+            );
 
-    }
+            Swal.fire({
+                icon: "success",
+                title: "Article Published!",
+                text: "Your article has been published successfully 🎉",
+                confirmButtonColor: "#6366f1", // indigo-500
+            }).then(() => {
+                navigate("/my-articles");
+            });
+
+            form.reset();
+            setTags([]);
+
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Publish Failed",
+                text: "Something went wrong. Please try again.",
+                confirmButtonColor: "#6366f1",
+            });
+            console.error(error);
+        }
+    };
+
     const formatDate = (date) => {
         if (!date) return 'unknown date';
         return new Date(date).toLocaleDateString("en-US", {

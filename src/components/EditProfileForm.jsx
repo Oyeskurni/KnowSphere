@@ -23,8 +23,6 @@ const EditProfileForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Updated user:", user);
-        // এখানে axios/post call করে backend এ save করতে পারো
         alert("Profile updated successfully!");
     };
 

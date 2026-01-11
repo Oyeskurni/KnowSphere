@@ -18,12 +18,12 @@ const Register = () => {
         const formData = new FormData(form);
         const { email, password, displayName, photoURL } = Object.fromEntries(formData.entries());
 
-        console.log(email, password, displayName, photoURL);
+
         createUser(email, password)
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
-                console.log(user);
+
                 updateProfile(user, {
                     displayName
                     , photoURL
@@ -34,7 +34,7 @@ const Register = () => {
             })
             .catch((error) => {
                 const errorCode = error.code;
-                console.log(errorCode);
+
 
             });
     }

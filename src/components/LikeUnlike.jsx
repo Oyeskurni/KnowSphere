@@ -29,7 +29,7 @@ const LikeUnlike = ({ articleId, likes = [], likesCount = 0 }) => {
         }
 
         await axios.patch(
-            `https://knowledge-server-1.onrender.com/articles/like/${articleId}`,
+            `https://knowledge-server-wkhc.onrender.com/articles/like/${articleId}`,
             { userId: user.uid }
         );
 

@@ -40,7 +40,7 @@ const CommentBox = ({ articleId, refetch }) => {
         };
 
         try {
-            const res = await axios.post('https://knowledge-server-1.onrender.com/comments', commentData);
+            const res = await axios.post('https://knowledge-server-wkhc.onrender.com/comments', commentData);
             Swal.fire({
                 icon: "success",
                 title: "Comment Posted!",

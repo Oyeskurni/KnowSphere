@@ -12,7 +12,7 @@ const HamMenu = () => {
             <div className="drawer-content">
                 <label
                     htmlFor="my-drawer-1"
-                    className="text-xl btn btn-ghost btn-circle drawer-button cursor-pointer"
+                    className="text-2xl md:hidden drawer-button cursor-pointer"
                 >
                     <MdOutlineMenuOpen />
                 </label>

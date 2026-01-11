@@ -24,39 +24,82 @@ const UpdateArticle = () => {
 
 
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const articleForm = Object.fromEntries(formData.entries());
-        // formatDate
+
         const formattedDate = formatDate(articleForm.date);
-        // Validate readTime05
+
+        // Read time validation
         if (!validateReadTime(articleForm.readTime)) {
-            setError("Read time must be a positive number");
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Read Time",
+                text: "Read time must be a positive number",
+                confirmButtonColor: "#6366f1", // indigo-500
+            });
             return;
         }
 
-        const articleData = { ...articleForm, date: formattedDate, tags: tagss };
+        const articleData = {
+            ...articleForm,
+            date: formattedDate,
+            tags: tagss,
+        };
 
+        // Loading alert
+        Swal.fire({
+            title: "Updating article...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
 
-        axios.patch(`https://knowledge-server-1.onrender.com/articles/${articles._id}`, articleData)
-            .then(() =>
-                navigate('/my-articles')
-            )
-            .catch(err => {
-                if (err.response?.status === 401) {
-                    Swal.fire("Login required", "Please login first", "warning");
-                }
-                else if (err.response?.status === 403) {
-                    Swal.fire("Forbidden", "You are not allowed to update this article", "error");
-                }
-                else {
-                    Swal.fire("Error", "Something went wrong. Try again.", "error");
-                }
+        try {
+            await axios.patch(
+                `https://knowledge-server-wkhc.onrender.com/articles/${articles._id}`,
+                articleData
+            );
+
+            Swal.fire({
+                icon: "success",
+                title: "Article Updated!",
+                text: "Your article has been updated successfully ✨",
+                confirmButtonColor: "#6366f1",
+            }).then(() => {
+                navigate("/my-articles");
             });
 
-    }
+        } catch (err) {
+            Swal.close();
+
+            if (err.response?.status === 401) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Login Required",
+                    text: "Please login first",
+                    confirmButtonColor: "#6366f1",
+                });
+            }
+            else if (err.response?.status === 403) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Forbidden",
+                    text: "You are not allowed to update this article",
+                    confirmButtonColor: "#6366f1",
+                });
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Update Failed",
+                    text: "Something went wrong. Try again.",
+                    confirmButtonColor: "#6366f1",
+                });
+            }
+        }
+    };
     const formatDate = (date) => {
         if (!date) return 'unknown date';
         return new Date(date).toLocaleDateString("en-US", {

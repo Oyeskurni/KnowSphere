@@ -34,7 +34,7 @@ const router = createBrowserRouter([
                     const category = url.searchParams.get("category");
                     const tag = url.searchParams.get("tag");
 
-                    let apiUrl = "https://knowledge-server-1.onrender.com/articles";
+                    let apiUrl = "https://knowledge-server-wkhc.onrender.com/articles";
 
                     const params = new URLSearchParams();
 
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
             {
                 path: '/article/:id',
                 loader: async ({ params }) => {
-                    const res = await fetch(`https://knowledge-server-1.onrender.com/articles/${params.id}`);
+                    const res = await fetch(`https://knowledge-server-wkhc.onrender.com/articles/${params.id}`);
 
                     if (!res.ok) {
                         throw new Response("Article not found", { status: 404 });
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
             {
                 path: '/update-article/:id',
                 loader: async ({ params }) => {
-                    const res = await fetch(`https://knowledge-server-1.onrender.com/articles/${params.id}`);
+                    const res = await fetch(`https://knowledge-server-wkhc.onrender.com/articles/${params.id}`);
 
                     if (!res.ok) {
                         throw new Response("Article not found", { status: 404 });
