@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Custom styles can be added below */
+a.active {
+    @apply text-primary font-bold underline;
+}

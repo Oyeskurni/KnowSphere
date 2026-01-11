@@ -93,13 +93,14 @@ const MyArticlesList = ({ article }) => {
                                             <td>{art.date || "N/A"}</td>
 
                                             <td className="flex justify-center gap-2">
-                                                <Link to={`/article/${art._id}`} className="btn btn-square btn-sm btn-ghost" title="View">
+                                                <Link to={`/article/${art._id}`} className="btn btn-square btn-sm btn-ghost tooltip" data-tip="View">
                                                     <Eye size={18} />
                                                 </Link>
-                                                <Link to={`/update-article/${art._id}`} className="btn btn-square btn-sm btn-info btn-outline" title="Edit">
+                                                <Link to={`/update-article/${art._id}`} className="btn btn-square btn-sm btn-info btn-outline tooltip" data-tip="
+                                                Edit">
                                                     <Edit3 size={18} />
                                                 </Link>
-                                                <button onClick={() => handleDelete(art._id)} className="btn btn-square btn-sm btn-error btn-outline" title="Delete">
+                                                <button onClick={() => handleDelete(art._id)} className="btn btn-square btn-sm btn-error btn-outline tooltip" data-tip="Delete">
                                                     <Trash2 size={18} />
                                                 </button>
                                             </td>

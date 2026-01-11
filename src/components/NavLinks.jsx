@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 
 const NavLinks = () => {
 
@@ -16,9 +16,9 @@ const NavLinks = () => {
             <ul className="flex flex-col md:flex-row gap-4">
                 {navLinks.map((link, index) => (
                     <li key={index}>
-                        <Link to={link.path} className="text-md font-semibold text-gray-500 hover:text-primary hover:underline">
+                        <NavLink to={link.path} className="text-md font-semibold text-gray-500 hover:text-primary hover:underline">
                             {link.name}
-                        </Link>
+                        </NavLink>
                     </li>
                 ))}
             </ul>

@@ -32,7 +32,8 @@ const BookmarkBtn = ({ articleId }) => {
     return (
         <button
             onClick={handleBookmark}
-            className={`btn btn-ghost btn-circle btn-sm ${isBookmarked ? 'text-primary' : 'text-base-content/40'}`}
+            className={`btn btn-ghost btn-circle btn-sm tooltip ${isBookmarked ? 'text-primary' : 'text-base-content/40'}`}
+            data-tip="Bookmark"
         >
             {isBookmarked ? <FaBookmark size={18} /> : <FaRegBookmark size={18} />}
         </button>
