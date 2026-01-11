@@ -24,7 +24,7 @@ const AllArticles = () => {
 
                     <Link
                         to="/post-article"
-                        className="btn btn-primary"
+                        className="group inline-flex items-center gap-2 bg-indigo-500 px-6 py-2 font-medium text-white transition-all duration-300 shadow-[3px_3px_0px_#000] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
                         data-aos="fade-left"
                     >
                         Write an Article

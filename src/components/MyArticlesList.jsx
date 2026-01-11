@@ -60,7 +60,7 @@ const MyArticlesList = ({ article }) => {
                         <h1 className="text-3xl font-black">My Articles</h1>
                         <p className="text-base-content/60">Manage and track your published content</p>
                     </div>
-                    <Link data-aos="fade-left" to="/create-article" className="btn btn-primary">
+                    <Link data-aos="fade-left" to="/post-article" className="bg-indigo-500 px-6 py-2 font-medium text-white transition-all duration-300 shadow-[3px_3px_0px_#000] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none ">
                         + Write New Article
                     </Link>
                 </div>

@@ -90,7 +90,7 @@ const About = () => {
                     Whether you're a student, learner, or creator — KnowSphere welcomes
                     you to be part of a growing knowledge-driven community.
                 </p>
-                <button data-aos="fade-up" data-aos-delay="50" className="btn btn-primary mt-6">
+                <button data-aos="fade-up" data-aos-delay="50" className="bg-indigo-500 px-6 py-2 font-medium text-white transition-all duration-300 shadow-[3px_3px_0px_#000] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none mt-6">
                     Start Exploring
                 </button>
             </div>
